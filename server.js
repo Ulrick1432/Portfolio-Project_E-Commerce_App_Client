@@ -1,7 +1,9 @@
 const express = require('express');
 const { Pool } = require('pg');
+require('dotenv').config()
 
 const app = express();
+console.log(process.env.S3_BUCKET)
 
 const pool = new Pool ({
   user: 'postgres',

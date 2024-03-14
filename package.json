@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "devStart": "nodemon server.js", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +15,14 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
+    "dotenv": "^16.4.5",
     "nodemon": "^3.1.0"
+  },
+  "_comments": {
+    "_commentScripts": "Write comments about the above scripts",
+      "_devStart": "Write the this command npm run devStart → this will automaticly restart the server, when changes has made",
+    "_commentDevDependencies": "Wirte comments about the above devDependencies",
+      "_nodemon": "automatically restarts the node application when file changes in the directory are detected.",
+      "_dotenv": "loads environment variables from a .env file into process.env"
   }
 }
