@@ -22,15 +22,6 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
-// Enable Cross Origin Resource Sharing to all origins by default
-app.use(cors());
-
-// Transforms raw string of req.body into JSON
-app.use(bodyParser.json());
-
-// Parses urlencoded bodies
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // Define routes
 app.get('/', (req, res) => {
   res.send(`This is my first env example usage → ${process.env.S3_BUCKET} = ` + '${process.env.S3_BUCKET}');
