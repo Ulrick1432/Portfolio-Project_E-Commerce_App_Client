@@ -22,13 +22,22 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
+// Enable Cross Origin Resource Sharing to all origins by default
+app.use(cors());
+
+// Transforms raw string of req.body into JSON
+app.use(bodyParser.json());
+
+// Parses urlencoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Define routes
 app.get('/', (req, res) => {
-  res.send(`Hello World this is my first test and this is my env sage example usage ${process.env.S3_BUCKET} = ` + '${process.env.S3_BUCKET}');
+  res.send(`This is my first env example usage → ${process.env.S3_BUCKET} = ` + '${process.env.S3_BUCKET}');
 });
 
 // Start the server!
-const port = process.env.port || 3000;
+const port = process.env.port || 4000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   console.log(`${process.env.S3_BUCKET}`);
