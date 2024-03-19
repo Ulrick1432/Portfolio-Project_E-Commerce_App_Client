@@ -4,6 +4,8 @@ require('dotenv').config()
 
 const app = express();
 
+const userRoutes = require('./Routes/user');
+
 
 const pool = new Pool ({
   user: 'postgres',
@@ -21,6 +23,8 @@ pool.query('SELECT NOW()', (err, res) => {
     console.log('Connected to PostgreSQL at:', res.rows[0].now);
   }
 });
+
+app.use('/', userRoutes);
 
 // Define routes
 app.get('/', (req, res) => {
