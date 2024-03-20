@@ -4,6 +4,9 @@ const db = require('./db');
 
 const userRoutes = require('./Routes/user');
 
+// Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
+app.use(express.json());
+
 app.use('/', userRoutes);
 
 // Define routes

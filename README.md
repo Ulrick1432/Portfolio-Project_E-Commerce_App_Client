@@ -38,7 +38,19 @@
 * POST /api/orders/place: Endpoint for a user to place an order. This could include adding items to their cart, specifying shipping details, and completing the order.
 
 ## Folder: routes
-The routes folder is used for endpoint
+1. The routes folder is used for endpoint
+2. It handles incoming HTTP requests (Controller).
+3. It interacts with for example the UserModel (Model) to perform business logic related to user registration.
+4. It sends back appropriate HTTP responses to the client, including error handling (View).
 
 ## Folder: models
 The models folder is used for interating with the database with endpoint ()
+1. Model: for example The UserModel class represents the model in MVC. It encapsulates the logic related to users, such as registering a new user and querying existing users. It abstracts away the database interaction details and provides an interface for other parts of the application to interact with user-related data.
+
+2. Database Interaction: The registerUser method interacts with the database to perform two operations:
+It checks if a user with the provided email already exists in the database.
+It inserts a new user into the database if the email is not already registered.
+
+3. Error Handling: The code includes error handling to handle potential exceptions that may occur during database interactions or other operations. It throws custom error messages to provide meaningful feedback to the caller.
+
+4. Asynchronous Operations: The methods are defined as async, indicating that they perform asynchronous operations, such as querying the database and handling promises returned by database operations.
