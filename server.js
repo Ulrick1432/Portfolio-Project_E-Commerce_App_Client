@@ -4,7 +4,7 @@ require('dotenv').config()
 
 const app = express();
 
-const userRoutes = require('./routes/user');
+const userRoutes = require('./Routes/user');
 
 
 const pool = new Pool ({
