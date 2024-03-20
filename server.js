@@ -1,28 +1,8 @@
 const express = require('express');
-const { Pool } = require('pg');
-require('dotenv').config()
-
 const app = express();
+const db = require('./db');
 
 const userRoutes = require('./Routes/user');
-
-
-const pool = new Pool ({
-  user: 'postgres',
-  host: 'localhost',
-  database: process.env.DATABASE_NAME,
-  password: process.env.DATABASE_PASSWORD,
-  port: 5432 // Default PostgreSQL port
-});
-
-// Test the connection
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Error connecting to PostgreSQL: ', err.stack);
-  } else {
-    console.log('Connected to PostgreSQL at:', res.rows[0].now);
-  }
-});
 
 app.use('/', userRoutes);
 
