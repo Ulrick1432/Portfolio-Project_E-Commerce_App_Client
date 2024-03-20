@@ -1,5 +1,6 @@
 # Portfolio-Project_E-Commerce_App_REST-API
 
+## Endpoints:
 1. User Authentication:
 * POST /api/register: Create a new user account.
 * POST /api/login: Authenticate and log in a user.
@@ -35,3 +36,9 @@
 
 6. Placing an Order:
 * POST /api/orders/place: Endpoint for a user to place an order. This could include adding items to their cart, specifying shipping details, and completing the order.
+
+## Folder: routes
+The routes folder is used for endpoint
+
+## Folder: models
+The models folder is used for interating with the database with endpoint ()
