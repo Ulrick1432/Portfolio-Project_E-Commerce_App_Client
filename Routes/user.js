@@ -18,6 +18,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
+
 // GET /api/users - Get all users
 router.get('/users', (req, res) => {
     // Your logic to fetch all users
