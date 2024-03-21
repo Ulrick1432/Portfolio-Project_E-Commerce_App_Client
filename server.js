@@ -2,13 +2,16 @@ const express = require('express');
 const session = require('express-session');
 const app = express();
 const db = require('./db');
+const passport = require('passport');
 
 const userRoutes = require('./Routes/user');
+const authRoutes = require('./Routes/userAuth');
+
 
 // Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
 app.use(express.json());
 
-// Creates a session
+// Creates a session middleware
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -21,7 +24,13 @@ app.use(
   })
 );
 
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', userRoutes);
+
+app.use('/', authRoutes);
 
 // Define routes
 app.get('/', (req, res) => {
