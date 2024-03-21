@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const db = require('./db');
 
@@ -6,6 +7,19 @@ const userRoutes = require('./Routes/user');
 
 // Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
 app.use(express.json());
+
+// Creates a session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000
+    }
+  })
+);
 
 app.use('/', userRoutes);
 
