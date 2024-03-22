@@ -54,3 +54,10 @@ It inserts a new user into the database if the email is not already registered.
 3. Error Handling: The code includes error handling to handle potential exceptions that may occur during database interactions or other operations. It throws custom error messages to provide meaningful feedback to the caller.
 
 4. Asynchronous Operations: The methods are defined as async, indicating that they perform asynchronous operations, such as querying the database and handling promises returned by database operations.
+
+## What is .env file used for? 
+ - The file i used for storeing configuation variables for the project/application it can be accessible with the "process.env" object.
+
+## what is the .gitignore used for?
+- The file i used by Git to specify intentionally untracked files that Git should ignore.
+- For example the .env file in this project has been set in the .gitignore so that i wont be tracked/copied by git.
