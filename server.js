@@ -2,7 +2,6 @@
 const express = require('express');
 const session = require('express-session');
 const app = express();
-const db = require('./db');
 const passport = require('./config/passport');
 
 const userRoutes = require('./Routes/user');
@@ -33,7 +32,7 @@ app.use('/', userRoutes);
 
 app.use('/', authRoutes);
 
-// Define routes
+// Define routes this is the frontpage/mainpage
 app.get('/', (req, res) => {
   res.send(`This is my first env example usage → ${process.env.S3_BUCKET} = ` + '${process.env.S3_BUCKET}');
 });
