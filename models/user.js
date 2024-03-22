@@ -1,3 +1,4 @@
+//user.js models
 const db = require('../db/index');
 
 module.exports = class UserModel {
@@ -24,7 +25,7 @@ module.exports = class UserModel {
 
   async findByUsername(username) {
     try {
-      const findUsername = await db.query('SELECT * FROM "Users" WHERE Username = $1', [username]);
+      const findUsername = await db.query('SELECT * FROM "Users" WHERE "Username" = $1', [username]);
       if (findUsername.rows?.length) {
         return findUsername.rows[0];
       }
@@ -38,7 +39,7 @@ module.exports = class UserModel {
 
   async findById(id) {
     try {
-      const findId = await db.query('SELECT * FROM "Users" WHERE id = $1', [id]);
+      const findId = await db.query('SELECT * FROM "Users" WHERE "id" = $1', [id]);
       if (findId.rows?.length) {
         return findId.rows[0];
       }
@@ -52,7 +53,7 @@ module.exports = class UserModel {
 
   async isValidPassword(password) {
     try {
-      const validPassword = await DataView.query('SELECT * FROM "Users" WHERE Password = $1', [password]);
+      const validPassword = await db.query('SELECT * FROM "Users" WHERE "Password" = $1', [password]);
       if (validPassword.rows?.length) {
         return validPassword.rows[0];
       }

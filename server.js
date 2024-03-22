@@ -1,8 +1,9 @@
+//Server.js 
 const express = require('express');
 const session = require('express-session');
 const app = express();
 const db = require('./db');
-const passport = require('passport');
+const passport = require('./config/passport');
 
 const userRoutes = require('./Routes/user');
 const authRoutes = require('./Routes/userAuth');
