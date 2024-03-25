@@ -6,7 +6,7 @@ const UserModelInstance = new UserModel();
 
 // POST /api/users - Create a new user
 router.post('/register', async (req, res) => {
-    // Your logic to create a new user
+    // logic to create a new user
     try {
         // Extract username, email, and password from req.body
         const {firstname, lastname, username, email, password} = req.body;

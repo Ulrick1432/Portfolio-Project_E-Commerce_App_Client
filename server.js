@@ -6,6 +6,7 @@ const passport = require('./config/passport');
 
 const userRoutes = require('./Routes/user');
 const authRoutes = require('./Routes/userAuth');
+const productRoutes = require('./routes/product');
 
 
 // Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
@@ -31,6 +32,8 @@ app.use(passport.session());
 app.use('/', userRoutes);
 
 app.use('/', authRoutes);
+
+app.use('/', productRoutes);
 
 // Define routes this is the frontpage/mainpage
 app.get('/', (req, res) => {
