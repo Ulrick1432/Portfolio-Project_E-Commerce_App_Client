@@ -7,6 +7,7 @@ const passport = require('./config/passport');
 const userRoutes = require('./Routes/user');
 const authRoutes = require('./Routes/userAuth');
 const productRoutes = require('./routes/product');
+const cartsRoutes = require('./routes/carts');
 
 
 // Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
@@ -29,11 +30,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Setup Routes
 app.use('/', userRoutes);
 
 app.use('/', authRoutes);
 
 app.use('/', productRoutes);
+
+app.use('/cart', cartsRoutes)
 
 // Define routes this is the frontpage/mainpage
 app.get('/', (req, res) => {
