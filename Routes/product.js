@@ -32,7 +32,7 @@ router.post('/products/add', async (req, res) => {
 // GET /products/:id - Get single product by id
 router.get('/products/:id', async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const getProduct = await ProductModelInstance.getProductById(id);
     res.json(getProduct);
   } catch(err) {
