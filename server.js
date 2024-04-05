@@ -4,10 +4,11 @@ const session = require('express-session');
 const app = express();
 const passport = require('./config/passport');
 
-const userRoutes = require('./Routes/user');
-const authRoutes = require('./Routes/userAuth');
+const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/userAuth');
 const productRoutes = require('./routes/product');
 const cartsRoutes = require('./routes/carts');
+const ordersRoutes = require('./routes/order');
 
 
 // Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
@@ -37,7 +38,9 @@ app.use('/', authRoutes);
 
 app.use('/', productRoutes);
 
-app.use('/cart', cartsRoutes)
+app.use('/cart', cartsRoutes);
+
+app.use('/order', ordersRoutes);
 
 // Define routes this is the frontpage/mainpage
 app.get('/', (req, res) => {

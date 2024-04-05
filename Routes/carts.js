@@ -54,5 +54,61 @@ router.get('/:id/cartsItems', async (req, res) => {
   }
 })
 
+// POST Carts checkout (adding OrderItem)
+router.post('/:id/checkout', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const prices = await CartsModelInstance.GetProductPrice(id);
+    const productIds = await CartsModelInstance.GetProductId(id);
+    const uniqueProductIds = [...new Set(productIds.map(item => item.id))];
+
+    const { orderId } = req.body;
+
+    const orderItems = [];
+    for (let i = 0; i < uniqueProductIds.length; i++) {
+      const price = prices[i].Price;
+      const productId = uniqueProductIds[i];
+        const quantity = await CartsModelInstance.GetQuantity(id, productId);
+        const orderItem = await CartsModelInstance.CartCheckout(quantity, price, orderId, productId);
+        orderItems.push(orderItem);
+    }
+    res.json(orderItems);
+  } catch(err) {
+    res.status(500).json({err: err.message});
+  }
+})
+
+router.get('/:id/testGetPrice', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const price = await CartsModelInstance.GetProductPrice(id);
+    res.json(price);
+  } catch(err) {
+    res.status(500).json({err: err.message});
+  }
+})
+
+router.get('/:id/testGetQuantity', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const productId = 4;
+    const quantity = await CartsModelInstance.GetQuantity(id, productId);
+    res.json(quantity);
+  } catch(err) {
+    res.status(500).json({err: err.message});
+  }
+})
+
+router.get('/:id/testGetProductId', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const productId = await CartsModelInstance.GetProductId(id);
+    const testProduct = productId[0].id
+    res.json(productId);
+  } catch(err) {
+    res.status(500).json({err: err.message});
+  }
+})
+
 module.exports = router;
 
