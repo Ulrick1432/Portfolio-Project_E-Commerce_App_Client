@@ -60,11 +60,13 @@ router.post('/:id/checkout', async (req, res) => {
     const { id } = req.params;
     const prices = await CartsModelInstance.GetProductPrice(id);
     const productIds = await CartsModelInstance.GetProductId(id);
+    // Eliminates duplicate product IDs to ensure each product is processed only once
     const uniqueProductIds = [...new Set(productIds.map(item => item.id))];
 
     const { orderId } = req.body;
 
     const orderItems = [];
+    // Loops through unique product IDs to create order items
     for (let i = 0; i < uniqueProductIds.length; i++) {
       const price = prices[i].Price;
       const productId = uniqueProductIds[i];
