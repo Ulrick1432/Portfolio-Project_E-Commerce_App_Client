@@ -14,6 +14,7 @@ const router = express.Router();
 const OrdersModel = require('../models/order');
 const OrdersModelInstance = new OrdersModel();
 
+// Creates new order
 router.post('/', async (req, res) => {
   try {
     const status = "pending";
@@ -25,6 +26,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Get all orders
 router.get('/', async (req, res) => {
   try {
     const allOrders = await OrdersModelInstance.getAllOrders();

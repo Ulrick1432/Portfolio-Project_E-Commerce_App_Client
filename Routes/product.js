@@ -5,7 +5,7 @@ const db = require('../db/index');
 const ProductsModel = require('../models/product');
 const ProductModelInstance = new ProductsModel();
 // GET products
-router.get('/products', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const allProducts = await db.query('SELECT * FROM "Products"');
     if (allProducts.rows?.length) {
@@ -19,7 +19,7 @@ router.get('/products', async (req, res) => {
 });
 
 // POST add product
-router.post('/products/add', async (req, res) => {
+router.post('/add', async (req, res) => {
   try {
     const {name, price, stock} = req.body;
     const newProduct = await ProductModelInstance.addProduct(name, price, stock);
@@ -30,7 +30,7 @@ router.post('/products/add', async (req, res) => {
 });
 
 // GET /products/:id - Get single product by id
-router.get('/products/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const getProduct = await ProductModelInstance.getProductById(id);
@@ -41,7 +41,7 @@ router.get('/products/:id', async (req, res) => {
 });
 
 // PUT /products/:id - Update product by id
-router.put('/products/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const { id } =req.params;
     const { name, price, stock} = req.body;
@@ -72,7 +72,7 @@ router.put('/products/:id', async (req, res) => {
 })
 
 // DELETE product by id
-router.delete('/products/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     await ProductModelInstance.deleteProductById(id);

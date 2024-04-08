@@ -32,11 +32,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Setup Routes
-app.use('/', userRoutes);
+app.use('/users', userRoutes);
 
 app.use('/', authRoutes);
 
-app.use('/', productRoutes);
+app.use('/products', productRoutes);
 
 app.use('/cart', cartsRoutes);
 
