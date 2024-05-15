@@ -1,5 +1,5 @@
 //user.js models
-const db = require('../db/index');
+const db = require('../../db/index');
 
 module.exports = class UserModel {
   async registerUser(firstname, lastname, username, email, password) {
