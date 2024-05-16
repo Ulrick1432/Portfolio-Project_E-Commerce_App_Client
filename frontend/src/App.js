@@ -1,13 +1,17 @@
+import Root from "./components/root";
+import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from "react-router-dom";
 
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Portfolio Project: E-Comerce App</h1>
-      </header>
-    </div>
-  );
-}
+// sets up the router with JSX Route elements using createBrowserRouter() and createRoutesFromElements().
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Root />}>
+    </Route>
+  )
+);
+
+const App = () => (
+  <RouterProvider router={router} />
+);
 
 export default App;

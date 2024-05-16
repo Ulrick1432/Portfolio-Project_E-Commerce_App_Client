@@ -23,15 +23,15 @@
   },
   "_comments": {
     "_commentScripts": "Write comments about the above scripts",
-      "_devStart": "Write the this command npm run devStart → this will automaticly restart the server, when changes has made",
+    "_devStart": "Write the this command npm run devStart → this will automaticly restart the server, when changes has made",
     "_commentDevDependencies": "Wirte comments about the above devDependencies",
-      "_nodemon": "automatically restarts the node application when file changes in the directory are detected.",
-      "_dotenv": "loads environment variables from a .env file into process.env",
+    "_nodemon": "automatically restarts the node application when file changes in the directory are detected.",
+    "_dotenv": "loads environment variables from a .env file into process.env",
     "_commentDependencies": "Write comments about the above dependencies",
-      "_express": "Is a backend application framework for building RESTful APSs with NODE.js (server)",
-      "_express-session": "Middleware module in express that allow for creating sessions in web applications",
-      "_passport": "Middleware for NODE.js that simplifies the process of implementing authentication and authorization",
-      "_passport-local": "Is a strategy of passport to implement authentication with the use of username and password",
-      "_pg": "Is used for interacting with PostgreSQL database from within a Node.js application"
+    "_express": "Is a backend application framework for building RESTful APSs with NODE.js (server)",
+    "_express-session": "Middleware module in express that allow for creating sessions in web applications",
+    "_passport": "Middleware for NODE.js that simplifies the process of implementing authentication and authorization",
+    "_passport-local": "Is a strategy of passport to implement authentication with the use of username and password",
+    "_pg": "Is used for interacting with PostgreSQL database from within a Node.js application"
   }
 }
