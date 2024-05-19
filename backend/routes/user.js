@@ -9,9 +9,9 @@ router.post('/register', async (req, res) => {
     // logic to create a new user
     try {
         // Extract username, email, and password from req.body
-        const {firstname, lastname, username, email, password} = req.body;
+        const {firstName, lastName, userName, email, password} = req.body;
         // Call the registerUser method of the UserModel instance
-        const newUser = await UserModelInstance.registerUser(firstname, lastname, username, email, password);
+        const newUser = await UserModelInstance.registerUser(firstName, lastName, userName, email, password);
         res.json(newUser);
     } catch (err) {
         // Handle errors

@@ -4,6 +4,7 @@ const session = require('express-session');
 const app = express();
 const passport = require('passport');
 const initializePassport  = require('./config/passport');
+const cors = require('cors');
 
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/userAuth');
@@ -12,6 +13,8 @@ const cartsRoutes = require('./routes/carts');
 const ordersRoutes = require('./routes/order');
 
 initializePassport(passport);
+
+app.use(cors());
 
 // Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
 app.use(express.json());
