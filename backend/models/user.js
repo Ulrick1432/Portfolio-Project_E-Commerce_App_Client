@@ -1,5 +1,6 @@
 //user.js models
 const db = require('../db/index');
+const bcrypt = require('bcrypt');
 
 module.exports = class UserModel {
   async registerUser(firstname, lastname, username, email, password) {
@@ -11,10 +12,14 @@ module.exports = class UserModel {
         throw new Error('Email already registrered');
       }
 
+      // Hash the password before storing it
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
       // Insert the new user into the databse
       const newUserQuery = await db.query(
         'INSERT INTO "Users" ("First_Name","Last_Name","Username", "Email", "Password") VALUES ($1, $2, $3, $4, $5 ) RETURNING *',
-        [firstname, lastname, username, email, password]
+        [firstname, lastname, username, email, hashedPassword]
         );
       const newUser = newUserQuery.rows[0];
       return newUser;
@@ -51,15 +56,11 @@ module.exports = class UserModel {
     }
   }
 
-  async isValidPassword(password) {
+  async isValidPassword(enteredPassword, storedPassword) {
     try {
-      const validPassword = await db.query('SELECT * FROM "Users" WHERE "Password" = $1', [password]);
-      if (validPassword.rows?.length) {
-        return validPassword.rows[0];
-      }
-      return null;
-    } catch(err) {
-      throw new Error('Error finding password: ' + err.message);
+      return await bcrypt.compare(enteredPassword, storedPassword);
+    } catch (err) {
+      throw new Error('Error validating password: ' + err.message);
     }
   }
 }

@@ -2,7 +2,8 @@
 const express = require('express');
 const session = require('express-session');
 const app = express();
-const passport = require('./config/passport');
+const passport = require('passport');
+const initializePassport  = require('./config/passport');
 
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/userAuth');
@@ -10,6 +11,7 @@ const productRoutes = require('./routes/product');
 const cartsRoutes = require('./routes/carts');
 const ordersRoutes = require('./routes/order');
 
+initializePassport(passport);
 
 // Middleware to parse JSON request bodies (if not used 'reg.body' would be undefined)
 app.use(express.json());

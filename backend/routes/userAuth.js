@@ -17,23 +17,4 @@ router.get('/succeslogin', (req, res) => {
   res.json({ message: 'You succesfull logged ind! :D' });
 });
 
-// Tests that findByUsername function works
-router.get('/testFindByUsername', async (req, res) => {
-  try {
-    const thisIsUsername = await UserModelInstance.findByUsername("Sonny1432");
-    res.json(thisIsUsername);
-  } catch(err) {
-    throw new Error('cant find username: ' + err.message);
-  }
-})
-// tests that isValidPassword works
-router.get('/testisValidPassword', async (req, res) => {
-  try {
-    const thisIsPassword = await UserModelInstance.isValidPassword("TestMyPassword97");
-    res.json(thisIsPassword);
-  } catch(err) {
-    throw new Error('Cant find password: ' + err.message);
-  }
-})
-
 module.exports = router;
