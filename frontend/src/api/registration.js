@@ -12,6 +12,12 @@ export const createAccount = async (firstName, lastName, userName, email, passwo
       "Content-Type": "application/json",
     },
   });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.err);
+  }
+
   const newUser = await response.json();
   return newUser;
 };

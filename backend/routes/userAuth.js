@@ -17,4 +17,12 @@ router.get('/succeslogin', (req, res) => {
   res.json({ message: 'You succesfull logged ind! :D' });
 });
 
+router.get('/checkAuthentication', (req, res) => {
+  if (req.isAuthenticated() === true) {
+    res.json({authentication: true});
+  }
+});
+
+
+
 module.exports = router;

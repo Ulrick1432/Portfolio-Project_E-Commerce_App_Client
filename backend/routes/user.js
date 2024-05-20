@@ -5,14 +5,23 @@ const UserModel = require('../models/user');
 const UserModelInstance = new UserModel();
 
 // POST /api/users - Create a new user
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
     // logic to create a new user
     try {
         // Extract username, email, and password from req.body
         const {firstName, lastName, userName, email, password} = req.body;
         // Call the registerUser method of the UserModel instance
         const newUser = await UserModelInstance.registerUser(firstName, lastName, userName, email, password);
-        res.json(newUser);
+
+        // Log session data
+        console.log(req.session); // Log the entire session object
+        console.log(req.session.passport); // Log Passport-specific session data
+
+        req.logIn(newUser, (err) => {
+            if (err) return next(err);
+            res.json(newUser);
+        });
+
     } catch (err) {
         // Handle errors
         res.status(500).json({ err: err.message});

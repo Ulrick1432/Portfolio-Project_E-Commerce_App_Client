@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, redirect, useNavigate } from "react-router-dom";
 import { createAccount } from "../../api/registration";
 const RegistrationPage = () => {
   const navigate = useNavigate();
@@ -68,7 +68,9 @@ export const registrationAction = async ({ request }) => {
       submission.email,
       submission.password
     );
-    return { newUser };
+    if (newUser) {
+      return redirect('/')
+    }
   } catch (error) {
     return { error: error.message };
   }
