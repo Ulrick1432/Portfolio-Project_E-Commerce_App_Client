@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, redirect, useNavigate } from "react-router-dom";
+import { login } from "../../api/userAuth";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ const LoginPage = () => {
   const handleClickRegistration = () => {
     return navigate('/register');
   }
-
+  
   return (
     <div id="loginPage">
       <h1>Login</h1>
@@ -15,7 +16,7 @@ const LoginPage = () => {
         <h3>Do you not already have an account? click here to create one →</h3>
         <button onClick={handleClickRegistration}>Create account</button>
       </div>
-      <Form>
+      <Form method="post" action="/login">
         <label>
           E-mail
           <input type="email" name="email"/>
@@ -28,6 +29,30 @@ const LoginPage = () => {
       </Form>
     </div>
   )
+}
+
+export const loginAction = async ({ request }) => {
+  console.log(request);
+  const data = await request.formData();
+
+  const submission = {
+    email: data.get('email'),
+    password: data.get('password')
+  }
+  console.log('submission.email → ' + submission.email);
+  console.log(' submission.password → ' + submission.password);
+
+  try {
+    const loginAuthentication = await login(submission.email, submission.password);
+    console.log(loginAuthentication)
+    if (loginAuthentication) {
+      return redirect('/');
+    }
+    alert('Wrong email or password - try again');
+    return null;
+  } catch(err) {
+    return { error: err.message }
+  }
 }
 
 export default LoginPage;

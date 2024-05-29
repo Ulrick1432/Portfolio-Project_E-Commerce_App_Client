@@ -1,23 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { isAuthenticated } from "../api/userAuth";
 
 const HomePage = () => {
 const navigate = useNavigate();
-const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [user, setUser] = useState(false);
 
+console.log(`User logged in? → ${user}`);
 useEffect(() => {
-
-  const fetchAuthenticationStatus = async () => {
+  const getUser = async () => {
     try {
-      const response = await isAuthenticated();
-      setIsLoggedIn(response.authentication);
+      const response = await fetch('http://localhost:4000/auth/login/success', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+        'Content-Type': 'application/json',
+        }
+      });
+      if(response.status === 200) {
+        const userData = await response.json();
+        setUser(userData.success);
+      }
+      throw new Error('authentication failed')
     } catch(err) {
-      console.error("Error fetching authentication status:", error);
+      return err;
     }
-  };
-
-  fetchAuthenticationStatus();
+  }
+  getUser();
 }, []);
 
   const handleClickCreateAccount = (e) => {
@@ -34,8 +42,8 @@ useEffect(() => {
       <header className="HomePage-header">
         <h1>Portfolio Project: E-Comerce App</h1>
       </header>
-      {isLoggedIn ? (
-        <buttton>Logout</buttton>
+      {user ? (
+        <button>Logout</button>
       ) : (
       <div>
         <button onClick={handleClickLogin}>Login</button>
