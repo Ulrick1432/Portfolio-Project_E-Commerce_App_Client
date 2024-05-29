@@ -8,9 +8,6 @@ export const login = async (username, password) => {
       body: JSON.stringify({ username, password }),
       credentials: 'include'
     });
-    console.log(JSON.stringify({ username, password }));
-    console.log('↓ response is from userAuth login.js call');
-    console.log(response);
 
     if (response.status === 200) {
       return true; // Login successful
@@ -20,6 +17,21 @@ export const login = async (username, password) => {
   } catch (err) {
     // Handle network errors or other exceptions
     console.error('Error occurred during login:', err);
+    throw err; // Re-throw the original error for the caller to handle
+  }
+};
+
+export const logout = async () => {
+  try {
+    await fetch('http://localhost:4000/auth/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch(err) {
+    // Handle network errors or other exceptions
+    console.error('Error occurred during logout:', err);
     throw err; // Re-throw the original error for the caller to handle
   }
 };

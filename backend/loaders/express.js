@@ -6,7 +6,7 @@ module.exports = (app) => {
 
   // Enable Cross Origin Resource Sharing to all origins by default
   app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000','http://localhost:4000' ],
     credentials: true,
   }));
 

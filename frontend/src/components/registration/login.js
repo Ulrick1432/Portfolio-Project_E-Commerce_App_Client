@@ -32,19 +32,15 @@ const LoginPage = () => {
 }
 
 export const loginAction = async ({ request }) => {
-  console.log(request);
   const data = await request.formData();
 
   const submission = {
     email: data.get('email'),
     password: data.get('password')
   }
-  console.log('submission.email → ' + submission.email);
-  console.log(' submission.password → ' + submission.password);
 
   try {
     const loginAuthentication = await login(submission.email, submission.password);
-    console.log(loginAuthentication)
     if (loginAuthentication) {
       return redirect('/');
     }

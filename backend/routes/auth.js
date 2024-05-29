@@ -54,4 +54,13 @@ router.post('/login', passport.authenticate('local', {
       next(err);
     }
   });
+
+  // Logout Endpoint
+  router.post('/logout', (req, res, next) => {
+    req.logout((err) => {
+      if (err) { return next(err); }
+      res.redirect(`${process.env.FRONTEND_ENDPOINT}`)
+    });
+  });
+
 }
