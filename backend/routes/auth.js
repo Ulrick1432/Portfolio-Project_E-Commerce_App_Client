@@ -28,13 +28,13 @@ router.post('/login', passport.authenticate('local', {
   router.get('/login/success', (req, res, next) => {
     try {
       if(req.user) {
-        res.status(200).json({
+        return res.status(200).json({
           success: true,
           message: 'login successfull',
           user: req.user
         });
       }
-      res.status(401).send({
+      return res.status(401).send({
         success: false,
         message: 'No user is logged in'
       });
