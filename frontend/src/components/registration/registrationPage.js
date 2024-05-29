@@ -6,12 +6,17 @@ const RegistrationPage = () => {
 
   const handleClickLogin = () => {
     return navigate('/login');
-  }
+  };
+
+  const handleClickHome = () => {
+    return navigate('/');
+  };
 
   return (
     <div id="registrationPage">
       <h1>Create account</h1>
       <div>
+        <button onClick={handleClickHome}>Home</button>
         <h3>Do you already have an account? click here →</h3>
         <button onClick={handleClickLogin}>Login</button>
       </div>
