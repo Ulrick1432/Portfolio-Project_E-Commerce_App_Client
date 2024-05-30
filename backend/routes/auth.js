@@ -7,13 +7,14 @@ module.exports = (app, passport) => {
   app.use('/auth', router);
 
   // Registration Endpoint
-  router.post('/register', async (req, res, next) =>{
+  router.post('/register', async (req, res, next) => {
     try {
       const data = req.body;
-      const response = await UserModelInstance.registerUser(data)
+      const response = await UserModelInstance.registerUser(data);
       res.status(200).send(response);
-    } catch(err) {
-      next(err);
+    } catch (err) {
+      console.error('Error during user registration:', err.message);
+      res.status(500).json({ error: err.message });
     }
   });
 

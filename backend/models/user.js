@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 module.exports = class UserModel {
   async registerUser(data) {
-    const { firstname, lastname, username, email, password } = data;
+    const { firstName, lastName, userName, email, password} = data;
     try {
       // Check if the email is already registered
       const doesEmailExist = await db.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
@@ -18,14 +18,15 @@ module.exports = class UserModel {
       // Insert the new user into the database
       const registerUser = await db.query(
         'INSERT INTO "Users" ("First_Name","Last_Name","Username", "Email", "Password") VALUES ($1, $2, $3, $4, $5 ) RETURNING *',
-        [firstname, lastname, username, email, hashedPassword]
+        [firstName, lastName, userName, email, hashedPassword]
       );
       
       if (registerUser.rows?.length) {
-        registerUser.rows[0];
+        return registerUser.rows[0];
       }
       return null;
     } catch(err) {
+      console.error('Error registering user:', err.message);
       throw new Error('Error registering user: ' + err.message);
     }
   };
