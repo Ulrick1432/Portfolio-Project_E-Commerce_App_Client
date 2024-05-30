@@ -30,7 +30,7 @@ const LoginPage = () => {
           Password
           <input type="password" name="password"/>
         </label>
-        <button type="submit">Login</button>
+        <button type="submit" >Login</button>
       </Form>
     </div>
   )

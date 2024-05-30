@@ -5,6 +5,7 @@ import { logout } from "../api/userAuth";
 const HomePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
+  
 
   useEffect(() => {
     const getUser = async () => {
@@ -13,16 +14,17 @@ const HomePage = () => {
           method: 'GET',
           credentials: 'include',
           headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
           }
         });
-        if(response.status === 200) {
+        if (response.status === 200) {
           const userData = await response.json();
           setUser(userData.success);
+        } else {
+          throw new Error('Authentication failed');
         }
-        throw new Error('authentication failed')
-      } catch(err) {
-        return err;
+      } catch (err) {
+        console.error(err);
       }
     }
     getUser();
@@ -32,36 +34,36 @@ const HomePage = () => {
     e.preventDefault();
     try {
       await logout();
-      return setUser(false);
-    } catch(err) {
-      return { errer: err };
+      setUser(false);
+    } catch (err) {
+      console.error('Error during logout:', err);
     }
   };
 
   const handleClickCreateAccount = (e) => {
     e.preventDefault();
-    return navigate("/register");
+    navigate("/register");
   };
 
   const handleClickLogin = () => {
-    return navigate('/login');
+    navigate('/login');
   };
 
   return (
     <div className="HomePage">
       <header className="HomePage-header">
-        <h1>Portfolio Project: E-Comerce App</h1>
+        <h1>Portfolio Project: E-Commerce App</h1>
       </header>
       {user ? (
         <button onClick={handleClickLogout}>Logout</button>
       ) : (
-      <div>
-        <button onClick={handleClickLogin}>Login</button>
-        <br />
-        <button onClick={handleClickCreateAccount}>Create account</button>
-      </div>
+        <div>
+          <button onClick={handleClickLogin}>Login</button>
+          <br />
+          <button onClick={handleClickCreateAccount}>Create account</button>
+        </div>
       )}
-  </div>
+    </div>
   );
 }
 

@@ -55,12 +55,33 @@ router.post('/login', passport.authenticate('local', {
     }
   });
 
-  // Logout Endpoint
-  router.post('/logout', (req, res, next) => {
-    req.logout((err) => {
-      if (err) { return next(err); }
-      res.redirect(`${process.env.FRONTEND_ENDPOINT}`)
+// Logout Endpoint
+router.post('/logout', (req, res, next) => {
+  req.logout(function(err) {
+    if (err) {
+      console.error('Error during logout:', err);
+      return next(err);
+    }
+
+    // Destroy the session
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+        return next(err);
+      }
+
+      // Clear the cookie
+      res.clearCookie('UPH first session'); // Adjust cookie name if different
+
+      // Redirect or send success response
+      res.status(200).json({
+        success: true,
+        message: 'Logged out successfully'
+      });
     });
   });
+});
+
+
 
 }

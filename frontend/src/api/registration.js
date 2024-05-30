@@ -1,5 +1,5 @@
 export const createAccount = async (firstName, lastName, userName, email, password) => {
-  const response = await fetch(`http://localhost:4000/users/register`, {
+  const response = await fetch(`http://localhost:4000/auth/register`, {
     method: "POST",
     body: JSON.stringify({
       firstName,
