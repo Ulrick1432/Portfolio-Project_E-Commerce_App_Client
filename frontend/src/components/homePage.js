@@ -5,6 +5,7 @@ import { logout } from "../api/userAuth";
 const HomePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
+  console.log(user);
   
 
   useEffect(() => {

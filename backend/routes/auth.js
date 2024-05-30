@@ -17,11 +17,11 @@ module.exports = (app, passport) => {
     }
   });
 
-  // Login Endpoint
-router.post('/login', passport.authenticate('local', {
-  successRedirect: 'login/success',
-  failureRedirect: '/login/failed'
-}));
+    // Login Endpoint
+  router.post('/login', passport.authenticate('local', {
+    successRedirect: 'login/success',
+    failureRedirect: '/login/failed'
+  }));
 
 
   // Check Login status Endpoint
@@ -55,33 +55,30 @@ router.post('/login', passport.authenticate('local', {
     }
   });
 
-// Logout Endpoint
-router.post('/logout', (req, res, next) => {
-  req.logout(function(err) {
-    if (err) {
-      console.error('Error during logout:', err);
-      return next(err);
-    }
-
-    // Destroy the session
-    req.session.destroy((err) => {
+  router.post('/logout', (req, res, next) => {
+    req.logout(function(err) {
       if (err) {
-        console.error('Error destroying session:', err);
+        console.error('Error during logout:', err);
         return next(err);
       }
-
-      // Clear the cookie
-      res.clearCookie('UPH first session'); // Adjust cookie name if different
-
-      // Redirect or send success response
-      res.status(200).json({
-        success: true,
-        message: 'Logged out successfully'
+  
+      // Destroy the session
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+          return next(err);
+        }
+  
+        // Clear the cookie
+        res.clearCookie('UPH first session'); // Ensure this matches the session cookie name
+  
+        // Send success response
+        res.status(200).json({
+          success: true,
+          message: 'Logged out successfully'
+        });
       });
     });
   });
-});
-
-
-
+  
 }

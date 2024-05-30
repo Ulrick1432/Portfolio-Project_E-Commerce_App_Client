@@ -23,15 +23,21 @@ export const login = async (username, password) => {
 
 export const logout = async () => {
   try {
-    await fetch('http://localhost:4000/auth/logout', {
+    const response = await fetch('http://localhost:4000/auth/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include' // Ensure credentials are included to handle the session correctly
     });
-  } catch(err) {
-    // Handle network errors or other exceptions
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.err);
+    }
+  } catch (err) {
     console.error('Error occurred during logout:', err);
     throw err; // Re-throw the original error for the caller to handle
   }
 };
+
