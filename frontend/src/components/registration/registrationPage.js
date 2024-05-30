@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, redirect, useNavigate } from "react-router-dom";
 import { createAccount } from "../../api/registration";
+import { login } from "../../api/userAuth";
 const RegistrationPage = () => {
   const navigate = useNavigate();
 
@@ -73,10 +74,13 @@ export const registrationAction = async ({ request }) => {
       submission.email,
       submission.password
     );
-    if (newUser) {
-      return redirect('/')
+    const loginAuthentication = await login(submission.email, submission.password);
+    if (newUser && loginAuthentication) {
+      console.log('Account created and auto logged in');
+      return redirect('/');
     }
   } catch (error) {
+    console.error('Error during registration:', error);
     return { error: error.message };
   }
 }

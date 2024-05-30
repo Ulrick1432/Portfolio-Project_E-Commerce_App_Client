@@ -1,6 +1,9 @@
 export const createAccount = async (firstName, lastName, userName, email, password) => {
   const response = await fetch(`http://localhost:4000/auth/register`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       firstName,
       lastName,
@@ -8,9 +11,6 @@ export const createAccount = async (firstName, lastName, userName, email, passwo
       email,
       password
     }),
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 
   if (!response.ok) {
@@ -18,7 +18,6 @@ export const createAccount = async (firstName, lastName, userName, email, passwo
     throw new Error(error.err);
   }
 
-  const newUser = await response.json();
-  return newUser;
+  return await response.json();
 };
 
