@@ -1,5 +1,7 @@
+import { api } from ".";
+
 export const createAccount = async (firstName, lastName, userName, email, password) => {
-  const response = await fetch(`http://localhost:4000/auth/register`, {
+  const response = await fetch(`${api}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
