@@ -18,11 +18,20 @@ module.exports = (app, passport) => {
     }
   });
 
-    // Login Endpoint
+  // Login Endpoint
   router.post('/login', passport.authenticate('local', {
     successRedirect: 'login/success',
     failureRedirect: '/login/failed'
   }));
+
+  // Google login Endpoint
+  router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+
+  router.get('/google/callback', passport.authenticate('google', {
+    successRedirect: 'login/success',
+    failureRedirect: '/login/failed'
+  }));
+
 
 
   // Check Login status Endpoint
