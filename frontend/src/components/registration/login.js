@@ -1,16 +1,21 @@
 import React from "react";
 import { Form, redirect, useNavigate } from "react-router-dom";
 import { login } from "../../api/userAuth";
+import { api } from "../../api";
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleClickRegistration = () => {
     return navigate('/register');
-  }
+  };
 
   const handleClickHome = () => {
     return navigate('/');
+  };
+
+  const handleClickGoogleLogin = () => {
+    window.open(`${api}/auth/google`, '_self');
   };
   
   return (
@@ -32,6 +37,7 @@ const LoginPage = () => {
         </label>
         <button type="submit" >Login</button>
       </Form>
+      <button onClick={handleClickGoogleLogin}>login with Google</button>
     </div>
   )
 }

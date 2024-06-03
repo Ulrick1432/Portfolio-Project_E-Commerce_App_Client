@@ -3,33 +3,41 @@ const bcrypt = require('bcrypt');
 
 module.exports = class UserModel {
   async registerUser(data) {
-    const { firstName, lastName, userName, email, password} = data;
+    const { firstName, lastName, userName, email, password, googleId } = data;
     try {
       // Check if the email is already registered
       const doesEmailExist = await db.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
-      if(doesEmailExist.rows[0]) {
-        throw new Error('Email already registrered');
+      console.log('Check if the email is already registered');
+      if (doesEmailExist.rows[0]) {
+        throw new Error('Email already registered');
       }
 
-      // Hash the password before storing it
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      // Hash the password before storing it if provided
+      let hashedPassword = null;
+      if (password) {
+        console.log('Hash the password before storing it if provided');
+
+        const saltRounds = 10;
+        hashedPassword = await bcrypt.hash(password, saltRounds);
+      }
 
       // Insert the new user into the database
       const registerUser = await db.query(
-        'INSERT INTO "Users" ("First_Name","Last_Name","Username", "Email", "Password") VALUES ($1, $2, $3, $4, $5 ) RETURNING *',
-        [firstName, lastName, userName, email, hashedPassword]
+        'INSERT INTO "Users" ("First_Name", "Last_Name", "Username", "Email", "Password", "GoogleId") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [firstName, lastName, userName, email, hashedPassword, googleId]
       );
+      console.log('Insert the new user into the database');
       
       if (registerUser.rows?.length) {
+        console.log('returns → registerUser.rows[0] → ' +  registerUser.rows[0]);
         return registerUser.rows[0];
       }
+      console.log('returns null');
       return null;
     } catch(err) {
-      console.error('Error registering user:', err.message);
       throw new Error('Error registering user: ' + err.message);
     }
-  };
+  }
 
   async login(username, password) {
     try {
@@ -59,7 +67,7 @@ module.exports = class UserModel {
       const findUserById = await db.query('SELECT * FROM "Users" WHERE "id" = $1', [id]);
       const user = findUserById.rows[0];
       if (!user) {
-        throw new Error('Error Cant find user by id');
+        throw new Error('Error Can\'t find user by id');
       }
       return user;
 
@@ -67,4 +75,48 @@ module.exports = class UserModel {
       throw new Error(err.message);
     }
   };
+
+  async getUserByGoogleId(id) {
+    try {
+      let findUserById = await db.query('SELECT * FROM "Users" WHERE "GoogleId" = $1', [id]);
+      const user = findUserById.rows[0];
+      console.log('This is user in getUserByGoogleId → ' + user.googleId);
+      if (!user) {
+        console.log('user was not found in getUserByGoogleId');
+        console.log('if getUserByGoogleId is not found this is what it returns ' + findUserById.array[0].id);
+        return findUserById.rows[0];
+      }
+      console.log('user was found in getUserByGoogleId');
+      return user
+    } catch(err) {
+      throw new Error(err.message);
+    }
+  }
+  
+  
+  
+  
+
+  async googleIdFindOrCreateAcc(profile) {
+    console.log(profile);
+    console.log('This is googleId in googleIdFindOrCreateAcc → ' + profile.id);
+    try {
+      let user = await this.getUserByGoogleId(profile.id);
+      if (!user) {
+        console.log('No user found in googleIdFindOrCreateAcc');
+        console.log('firstName: ' + profile.name.givenName + ' lastName: ' + profile.name.familyName);
+        user = this.registerUser({
+          firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            GoogleId: profile.id
+        });
+        return user;
+      }
+      console.log('googleIdFindOrCreateAcc returns user');
+      return user;
+    } catch(err) {
+      throw new Error(err);
+    }
+  };
+
 }
