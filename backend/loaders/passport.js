@@ -3,7 +3,6 @@ const LocalStrategy = require('passport-local');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const UserModel = require('../models/user');
 const UserModelInstance = new UserModel();
-const db = require('../db/index');
 
 module.exports = (app) => {
 
