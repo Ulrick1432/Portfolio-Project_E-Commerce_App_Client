@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../api/userAuth";
+import Header from "./Header";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -52,9 +53,7 @@ const HomePage = () => {
 
   return (
     <div className="HomePage">
-      <header className="HomePage-header">
-        <h1>Portfolio Project: E-Commerce App</h1>
-      </header>
+      <Header/>
       {user ? (
         <button onClick={handleClickLogout}>Logout</button>
       ) : (

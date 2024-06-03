@@ -1,9 +1,9 @@
 import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from "react-router-dom";
-import HomePage from "./components/homePage";
-import RegistrationPage from "./components/registration/registrationPage";
-import LoginPage from "./components/registration/login";
-import { registrationAction } from "./components/registration/registrationPage";
-import { loginAction } from "./components/registration/login";
+import HomePage from "./components/HomePage";
+import RegistrationPage from "./components/authentication/RegistrationPage";
+import LoginPage from "./components/authentication/Login";
+import { registrationAction } from "./components/authentication/RegistrationPage";
+import { loginAction } from "./components/authentication/Login";
 
 const App = () => {
 
