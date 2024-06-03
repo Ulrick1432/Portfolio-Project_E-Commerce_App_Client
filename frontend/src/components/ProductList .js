@@ -1,1 +1,0 @@
-// Used to display the list of products with the use of the "Product" component
