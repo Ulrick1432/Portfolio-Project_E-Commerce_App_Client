@@ -1,4 +1,4 @@
-import { api } from ".";
+import { api } from '.';
 
 export const login = async (username, password) => {
   try {
@@ -18,7 +18,7 @@ export const login = async (username, password) => {
     }
   } catch (err) {
     // Handle network errors or other exceptions
-    console.error('Error occurred during login:', err);
+    console.error('Error occurred during login: ', err);
     throw err; // Re-throw the original error for the caller to handle
   }
 };
@@ -38,7 +38,7 @@ export const logout = async () => {
       throw new Error(error.err);
     }
   } catch (err) {
-    console.error('Error occurred during logout:', err);
+    console.error('Error occurred during logout: ', err);
     throw err; // Re-throw the original error for the caller to handle
   }
 };

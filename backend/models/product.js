@@ -8,7 +8,7 @@ module.exports = class ProductModel {
       if (getProducts.rows?.length) {
         return getProducts.rows;
       }
-      return null;
+      return [];
     } catch(err) {
       throw new Error('Error getting all products from the database');
     }
