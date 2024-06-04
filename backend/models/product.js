@@ -1,6 +1,19 @@
 const db = require('../db/index');
 
 module.exports = class ProductModel {
+
+  async getAllProducts() {
+    try {
+      const getProducts = await db.query('SELECT * FROM "Products"');
+      if (getProducts.rows?.length) {
+        return getProducts.rows;
+      }
+      return null;
+    } catch(err) {
+      throw new Error('Error getting all products from the database');
+    }
+  }
+
   async addProduct(name, price, stock) {
     try {
       const addNewProduct = await db.query('INSERT INTO "Products" ("Name", "Price", "Stock") VALUES ($1, $2, $3) RETURNING *',
