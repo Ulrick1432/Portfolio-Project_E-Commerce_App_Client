@@ -1,4 +1,6 @@
 // Used for rendering a particular product.
+//import defaultImage from '../../resources/productImages/default-product-image.png'
+//Source for default img "resources/productImages/default-product-image.png"
 
 const Product = ({ name, price, stock, description, image }) => {
   return (
@@ -7,7 +9,8 @@ const Product = ({ name, price, stock, description, image }) => {
       <p className="productPrice"> {price} </p>
       <p className="productStock"> {stock} </p>
       <p className="productDescription"> {description} </p>
-      <img src={image}></img>
+
+      <img src={image} alt={name}/>
     </div>
   );
 }
