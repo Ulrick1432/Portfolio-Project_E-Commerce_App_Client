@@ -12,3 +12,9 @@ export const getAllProducts = async () => {
     console.log('Error getting all products: ', err);
   }
 };
+
+export const getProductById = async () => {
+  try {
+    const response = await fetch(`${api}/product/get_all`)
+  }
+}

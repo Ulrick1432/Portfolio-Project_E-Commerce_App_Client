@@ -16,4 +16,15 @@ module.exports = (app) => {
     }
   });
 
+  // Get product by Id Endpoint
+  router.get('/:id', async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const response = await ProductModelInstance.getProductById(id);
+      res.status(200).send(response);
+    } catch(err) {
+      next(err);
+    }
+  });
+
 };
