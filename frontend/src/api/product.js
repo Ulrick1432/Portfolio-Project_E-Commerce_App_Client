@@ -13,8 +13,13 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getProductById = async () => {
+export const getProductById = async (id) => {
   try {
-    const response = await fetch(`${api}/product/get_all`)
+    const response = await fetch(`${api}/product/${id}`);
+    const data = await response.json();
+    console.log('This is the reponse from getProductById in the frontend ', data);
+    return data;
+  } catch(err) {
+    console.log('Err getting product by id: ', err);
   }
-}
+};
