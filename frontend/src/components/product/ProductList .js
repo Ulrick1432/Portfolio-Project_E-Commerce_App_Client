@@ -13,6 +13,7 @@ const ProductList = () => {
     const getProducts = async () => {
       try {
         const response = await getAllProducts();
+        console.log()
         setAllProducts(response);
       } catch(err) {
         console.error('Error getting reponse from getAllProducts API: ' + err);
@@ -27,7 +28,7 @@ const ProductList = () => {
       <h2>List of products</h2>
       <ul>
         {allProducts.map(product => (
-          <Product key={product.id} name={product.Name} price={product.Price} stock={product.Stock} image={product.image} />
+          <Product key={product.id} name={product.Name} price={product.Price} stock={product.Stock} image={product.Image} />
         ))}
       </ul>
     </div>
