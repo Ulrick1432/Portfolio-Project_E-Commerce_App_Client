@@ -22,8 +22,9 @@ const router = express.Router();
     // GET Session-Based cart get all items
     router.get('/get_cart_in_session', (req, res) => {
       if (!req.session.cart) {
-        return res.status(204).send('No cart in session - add a product to cart');
+        return res.status(200).json([]);
       }
-      res.send(200).send(req.session.cart);
+      console.log(req.session.cart)
+      res.status(200).json(req.session.cart);
     });
   }

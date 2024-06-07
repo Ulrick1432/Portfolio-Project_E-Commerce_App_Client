@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../api/userAuth";
+import { getCartInSession } from "../api/cart";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -50,11 +51,14 @@ const Header = () => {
     navigate('/login');
   };
 
+  const handleClickGetCart = async () => {
+    const response = await getCartInSession();
+    console.log('This is the response from handleClickGetCart', response);
+  };
+
   return (
-    <div className="HomePage">
     <header className="header">
       <h1>Portfolio Project: E-Commerce App</h1>
-    </header>
       {user ? (
         <button onClick={handleClickLogout}>Logout</button>
       ) : (
@@ -64,7 +68,8 @@ const Header = () => {
           <button onClick={handleClickCreateAccount}>Create account</button>
         </div>
       )}
-    </div>
+      <button onClick={handleClickGetCart}>cart</button>
+    </header>
   );
 }
 
