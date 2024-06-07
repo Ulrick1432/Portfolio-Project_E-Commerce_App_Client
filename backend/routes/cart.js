@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const CartModel = require('../models/cart');
-const CartModelInstance = new CartModel();
+//const CartModel = require('../models/cart');
+//const CartModelInstance = new CartModel();
 
   // POST Session-Based cart add
 
