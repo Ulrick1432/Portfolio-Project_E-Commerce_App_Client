@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { getProductById } from "../../api/product";
 import { useParams } from "react-router-dom";
+import { addToCartInSession } from "../../api/cart";
 
 const ProductPage = () => {
   const [product, setProduct] = useState([]);
@@ -18,6 +19,17 @@ const ProductPage = () => {
     } 
     getProduct();
   }, []);
+
+  const handleClickAddToCart = async () => {
+    const itemId = id;
+    try {
+      const response = await addToCartInSession(itemId);
+      console.log('This is the response from handleClickAddToCart: → ', response);
+      
+    } catch(err) {
+      console.log('Error adding item to cart: → ', err);
+    }
+  };
   
   return (
     <div className="productPage">
@@ -26,7 +38,7 @@ const ProductPage = () => {
       <p className="productPrice"> {product.Price} </p>
       <p className="productStock"> {product.Stock} </p>
       <p className="productDescription"> {product.Description} </p>
-      <button>Add to cart</button>
+      <button onClick={handleClickAddToCart}>Add to cart</button>
     </div>
   )
 }
