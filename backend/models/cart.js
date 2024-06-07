@@ -4,8 +4,9 @@ const db = require('../db/index');
 // Carts er kurven.
 // CartsItems er det der er i kurven
 module.exports = class CartsModel {
+
   // POST Carts
-  async CreateCart(created) {
+  async createCart(created) {
     try {
       const createNewCart = await db.query('INSERT INTO "Carts" ("Created") VALUES ($1) RETURNING *', [created]);
       const newCart = createNewCart.rows[0];
@@ -15,7 +16,7 @@ module.exports = class CartsModel {
     }
   }
   // GET Carts by id
-  async GetCart(id) {
+  async getCart(id) {
     try {
       const cart = await db.query('SELECT * FROM "Carts" WHERE "id" = $1', [id]);
       if (cart.rows?.length) {
@@ -27,7 +28,7 @@ module.exports = class CartsModel {
     }
   }
   // POST CartsItems
-  async AddItem(created, id, productId) {
+  async addItem(created, id, productId) {
     try {
       const addNewItem = await db.query('INSERT INTO "CartItems" ("Created", "Cart_id", "Product_id") VALUES ($1, $2, $3)',
       [created, id, productId]);
@@ -38,7 +39,7 @@ module.exports = class CartsModel {
     }
   }
   // GET all CartsItems in cart
-  async GetItems(cartId) {
+  async getItems(cartId) {
     try {
       const GetAllItems = await db.query('SELECT * FROM "CartItems" WHERE "Cart_id" = $1', [cartId]);
       if (GetAllItems.rows?.length) {
@@ -51,7 +52,7 @@ module.exports = class CartsModel {
   }
 
   // GET quantity of cartItems
-  async GetQuantity(cartId, productId) {
+  async getQuantity(cartId, productId) {
     try {
       const quantity = await db.query(
         `SELECT COUNT(*) 
@@ -69,7 +70,7 @@ module.exports = class CartsModel {
   }
 
   // GET price of cartItems
-  async GetProductPrice(cartId) {
+  async getProductPrice(cartId) {
     try {
       const price = await db.query(
         `SELECT "Products"."Price"
@@ -86,7 +87,7 @@ module.exports = class CartsModel {
   }
 
   // GET id of product
-  async GetProductId(cartId) {
+  async getProductId(cartId) {
     try {
       const product = await db.query(
         `SELECT "Products"."id"
@@ -103,7 +104,7 @@ module.exports = class CartsModel {
   }
 
   // POST Carts checkout (adding OrderItem)
-  async CartCheckout(quantity, price, orderId, productId) {
+  async cartCheckout(quantity, price, orderId, productId) {
     try {
       const addNewItemToOrder = await db.query(
         `INSERT INTO "OrderItems" 
