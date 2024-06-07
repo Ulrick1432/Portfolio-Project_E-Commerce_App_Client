@@ -6,6 +6,7 @@ import { registrationAction } from "./components/authentication/RegistrationPage
 import { loginAction } from "./components/authentication/Login";
 import ProductPage from "./components/product/ProductPage";
 import Layout from "./components/Layout";
+import CartPage from "./components/cart";
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
         <Route path='/register' element={<RegistrationPage/>} action={registrationAction}></Route>
         <Route path='/login' element={<LoginPage/>} action={loginAction}></Route>
         <Route path='/product/:id' element={<ProductPage/>}></Route>
+        <Route path='/cart' element={<CartPage/>}></Route>
       </Route>
     </>
   )
