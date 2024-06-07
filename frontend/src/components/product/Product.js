@@ -16,7 +16,6 @@ const Product = ({ name, price, stock, description, image, id }) => {
       <p className="productPrice"> {price} </p>
       <p className="productStock"> {stock} </p>
       <p className="productDescription"> {description} </p>
-
       <img src={image} alt={name}/>
     </div>
   );
