@@ -5,11 +5,13 @@ import { login } from "../../api/userAuth";
 const RegistrationPage = () => {
   const navigate = useNavigate();
 
-  const handleClickLogin = () => {
+  const handleClickLogin = (e) => {
+    e.preventDefault();
     return navigate('/login');
   };
 
-  const handleClickHome = () => {
+  const handleClickHome = (e) => {
+    e.preventDefault();
     return navigate('/');
   };
 

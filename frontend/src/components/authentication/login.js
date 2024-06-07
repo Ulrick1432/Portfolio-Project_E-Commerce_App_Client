@@ -6,15 +6,18 @@ import { api } from "../../api";
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const handleClickRegistration = () => {
+  const handleClickRegistration = (e) => {
+    e.preventDefault();
     return navigate('/register');
   };
 
-  const handleClickHome = () => {
+  const handleClickHome = (e) => {
+    e.preventDefault();
     return navigate('/');
   };
 
-  const handleClickGoogleLogin = () => {
+  const handleClickGoogleLogin = (e) => {
+    e.preventDefault();
     window.open(`${api}/auth/google`, '_self');
   };
   

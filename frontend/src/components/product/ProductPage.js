@@ -20,7 +20,8 @@ const ProductPage = () => {
     getProduct();
   }, []);
 
-  const handleClickAddToCart = async () => {
+  const handleClickAddToCart = async (e) => {
+    e.preventDefault();
     const itemId = id;
     try {
       const response = await addToCartInSession(itemId);

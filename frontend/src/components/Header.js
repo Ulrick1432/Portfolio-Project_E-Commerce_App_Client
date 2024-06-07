@@ -47,11 +47,13 @@ const Header = () => {
     navigate("/register");
   };
 
-  const handleClickLogin = () => {
+  const handleClickLogin = (e) => {
+    e.preventDefault();
     navigate('/login');
   };
 
-  const handleClickGetCart = async () => {
+  const handleClickGetCart = async (e) => {
+    e.preventDefault();
     const response = await getCartInSession();
     console.log('This is the response from handleClickGetCart', response);
   };

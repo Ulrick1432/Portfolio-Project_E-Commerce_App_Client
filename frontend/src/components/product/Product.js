@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 const Product = ({ name, price, stock, description, image, id }) => {
   const navigate = useNavigate();
 
-  const handleClickProduct = (id) => {
+  const handleClickProduct = (e, id) => {
+    e.preventDefault();
     return navigate(`/product/${id}`);
   }
 
