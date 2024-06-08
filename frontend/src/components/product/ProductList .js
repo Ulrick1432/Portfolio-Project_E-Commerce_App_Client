@@ -15,7 +15,7 @@ const ProductList = () => {
         const response = await getAllProducts();
         setAllProducts(response);
       } catch(err) {
-        console.error('Error getting reponse from getAllProducts API: ', err);
+        console.error('Error getting response from getAllProducts API: ', err);
       }
     };
     getProducts();

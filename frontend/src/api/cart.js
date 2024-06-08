@@ -31,3 +31,15 @@ export const getCartInSession = async () => {
   }
 };
 
+export const getAllProductsInSessionFromDB = async () => {
+  try {
+    const response = await fetch(`${api}/cart/get_all_products_in_session_from_db`, {
+      credentials: 'include'
+    });
+    const data = await response.json();
+    console.log('This is the response from getAllProductsInSessionFromDB: → ', data);
+    return data;
+  } catch(err) {
+    console.log('Error getting all products in session from database: → ', err);
+  }
+};

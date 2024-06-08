@@ -7,6 +7,7 @@ import { addToCartInSession } from "../../api/cart";
 const ProductPage = () => {
   const [product, setProduct] = useState([]);
   const { id } = useParams();
+  console.log(id);
 
   useEffect(() => {
     const getProduct = async () => {

@@ -29,14 +29,15 @@ const ProductModelInstance = new ProductModel();
       res.status(200).json(req.session.cart);
     });
 
-    router.get('/get_all_products_in_session_from_db', async (req, res) => {
+    router.get('/get_all_products_in_session_from_db', async (req, res, next) => {
       try {
         const IdArr = req.session.cart;
+        console.log('This is the IdArr in router.get(/get_all_products_in_session_from_db : → ', IdArr);
         const products = await ProductModelInstance.getMultipleProductsById(IdArr);
         res.status(200).send(products);
       } catch(err) {
         next(err);
       }
     });
-    
+
   }

@@ -56,6 +56,7 @@ const Header = () => {
     e.preventDefault();
     const response = await getCartInSession();
     console.log('This is the response from handleClickGetCart', response);
+    return navigate(`/cart`);
   };
 
   return (
