@@ -37,6 +37,18 @@ module.exports = class ProductModel {
     }
   }
 
+  async getMultipleProductsById(IdArr) {
+    try {
+      const products = await db.query('SELECT * FROM "Products" WHERE "id" = ANY($1::int[])', IdArr);
+      if (products.rows?.length) {
+        return products.rows;
+      }
+      return null;
+    } catch(err) {
+      throw new Error('Error finding products with multiple product ids: ', err);
+    }
+  }
+
   async updateProductById(id, updateFields) {
     try {
       const { name, price, stock } = updateFields;

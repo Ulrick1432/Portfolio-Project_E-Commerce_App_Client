@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 //const CartModel = require('../models/cart');
 //const CartModelInstance = new CartModel();
-
+const ProductModel = require('../models/product');
+const ProductModelInstance = new ProductModel();
   // POST Session-Based cart add
 
   module.exports = (app) => {
@@ -27,4 +28,15 @@ const router = express.Router();
       console.log(req.session.cart)
       res.status(200).json(req.session.cart);
     });
+
+    router.get('/get_all_products_in_session_from_db', async (req, res) => {
+      try {
+        const IdArr = req.session.cart;
+        const products = await ProductModelInstance.getMultipleProductsById(IdArr);
+        res.status(200).send(products);
+      } catch(err) {
+        next(err);
+      }
+    });
+    
   }
