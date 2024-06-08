@@ -31,9 +31,13 @@ const ProductModelInstance = new ProductModel();
 
     router.get('/get_all_products_in_session_from_db', async (req, res, next) => {
       try {
-        const IdArr = req.session.cart;
-        console.log('This is the IdArr in router.get(/get_all_products_in_session_from_db : → ', IdArr);
-        const products = await ProductModelInstance.getMultipleProductsById(IdArr);
+        // If req.session.cart = [ '4', '4', '4', '5', '5', '5' ] the 2 lines down will makes it [ 4, 5 ]
+        // so it ensures to only query the database once per unique product id
+        const IdArr = req.session.cart.map(Number); // Convert string IDs to integers
+        const uniqueIdInArr = [...new Set(IdArr)]; //// Remove duplicates
+
+        console.log('This is the IdArr in router.get(/get_all_products_in_session_from_db : → ', uniqueIdInArr);
+        const products = await ProductModelInstance.getMultipleProductsById(uniqueIdInArr);
         res.status(200).send(products);
       } catch(err) {
         next(err);

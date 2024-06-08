@@ -14,7 +14,7 @@ const Product = ({ name, price, stock, description, image, id, quantity }) => {
     <div className="product" onClick={() => handleClickProduct(id)}>
       <h3 className="productName"> {name} </h3>
       <p className="productPrice"> Price {price} </p>
-      <p>Quantity {quantity}</p>
+      {quantity ? (<p>Quantity {quantity}</p>) : null}
       <p className="productStock"> In Stock {stock} </p>
       <h4>Description</h4>
       <p className="productDescription"> {description} </p>
