@@ -3,7 +3,7 @@
 //Source for default img "resources/productImages/default-product-image.png"
 import { useNavigate } from "react-router-dom";
 
-const Product = ({ name, price, stock, description, image, id }) => {
+const Product = ({ name, price, stock, description, image, id, quantity }) => {
   const navigate = useNavigate();
 
   const handleClickProduct = (id) => {
@@ -13,8 +13,10 @@ const Product = ({ name, price, stock, description, image, id }) => {
   return (
     <div className="product" onClick={() => handleClickProduct(id)}>
       <h3 className="productName"> {name} </h3>
-      <p className="productPrice"> {price} </p>
-      <p className="productStock"> {stock} </p>
+      <p className="productPrice"> Price {price} </p>
+      <p>Quantity {quantity}</p>
+      <p className="productStock"> In Stock {stock} </p>
+      <h4>Description</h4>
       <p className="productDescription"> {description} </p>
       <img src={image} alt={name}/>
     </div>

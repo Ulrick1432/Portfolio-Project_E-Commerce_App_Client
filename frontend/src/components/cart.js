@@ -1,33 +1,7 @@
 import { useEffect, useState } from "react";
-import { getAllProductsInSessionFromDB } from "../api/cart";
+import { getAllProductsInSessionFromDB, getCartInSession } from "../api/cart";
 import Product from "./product/Product";
 
-  {/*
-    Check om Cart er gemt i session.
-    {Ja: data ser således ud [itemID, itemID...] der kan være flere af samme id. 
-      Derfor er der behov for en metode til en array som returner antal af samme id og
-      returner en array, men id der findes en gang i array'en. 
-
-      // Your initial array
-      let numbers = [1, 2, 2, 3, 4, 4, 4, 5];
-
-      // Create an object to count occurrences of each number
-      let countMap = numbers.reduce((acc, num) => {
-        acc[num] = (acc[num] || 0) + 1;
-        return acc;
-      }, {});
-
-      console.log(countMap); // { '1': 1, '2': 2, '3': 1, '4': 3, '5': 1 }
-
-      // Get an array of unique numbers
-      let uniqueNumbers = Object.keys(countMap).map(Number);
-
-      console.log(uniqueNumbers); // [1, 2, 3, 4, 5]
-
-    } 
-
-    Check om cart er gemt i i DB. (se models/cart.js)
-*/}
 const CartPage = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true); // State to manage loading
@@ -36,15 +10,39 @@ const CartPage = () => {
     const getAllProducts = async () => {
       try {
         const response = await getAllProductsInSessionFromDB();
-        setAllProducts(response);
+        let data = await response;
+        console.log('This is the response in the useEffect getAllProducts: → ', data);
+  
+        let getQuantityFromSession = await getCartInSession();
+        console.log('This is the getQuantityFromSession → ', getQuantityFromSession);
+  
+        // Create a countMap to store quantities
+        let countMap = getQuantityFromSession.reduce((acc, num) => {
+          acc[num] = (acc[num] || 0) + 1;
+          return acc;
+        }, {});
+  
+        // Add quantity to each product
+        for (let product of data) {
+          let productId = product.id;
+          let quantity = countMap[productId] || 0; // Get quantity from countMap
+          product.quantity = quantity;
+        }
+  
+        console.log('This is the countmap: → ', countMap);
+        console.log('This is data after getting quantity: → ', data);
+  
+        setAllProducts(data);
       } catch (err) {
         console.error('Error getting response from getAllProductsInSessionFromDB API: ', err);
       } finally {
         setLoading(false); // Set loading to false after the API call completes
       }
     };
+  
     getAllProducts();
   }, []);
+  
 
   return (
     <div className="CartPage">
@@ -62,6 +60,7 @@ const CartPage = () => {
               image={product.Image} 
               id={product.id} 
               description={product.Description}
+              quantity={product.quantity}
             />
           ))}
         </ul>
