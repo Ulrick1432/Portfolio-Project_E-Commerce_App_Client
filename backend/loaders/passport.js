@@ -12,7 +12,8 @@ module.exports = (app) => {
   
   // Set method to serialize data to store in cookie
   passport.serializeUser((user, done) => {
-    console.log('This is the user in serializeUser → ' + user.googleId);
+    console.log('This is the user.googleId in serializeUser → ' + user.googleId);
+    console.log('This is the user in serializeUser → ' + user.id);
     done(null, user.id);
   });
   
@@ -21,22 +22,23 @@ module.exports = (app) => {
     done(null, user);
   });
 
+  // Configuration strategy to be used for google login
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
-  }, 
-  async (accessToken, refreshToken, profile, cb) => {
-    try {
-      const user = await UserModelInstance.googleIdFindOrCreateAcc(profile);
-      return cb(null, user);
-    } catch (err) {
-      return cb(err);
+    }, 
+    async (accessToken, refreshToken, profile, cb) => {
+      try {
+        const user = await UserModelInstance.googleIdFindOrCreateAcc(profile);
+        return cb(null, user);
+      } catch (err) {
+        return cb(err);
+      }
     }
-  }
-));
+  ));
 
-  // Configure strategy to be used for local login
+  // Configuration strategy to be used for local login
   passport.use(new LocalStrategy(
     async (username, password, done) => {
       try {

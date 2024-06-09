@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../api/userAuth";
 import { getCartInSession } from "../api/cart";
+import { getUser } from "../api/userAuth";
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(false);
-  console.log(user);
 
   useEffect(() => {
-    const getUser = async () => {
+    const fetchUser = async () => {
       try {
-        const response = await fetch('http://localhost:4000/auth/login/success', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-        if (response.status === 200) {
-          const userData = await response.json();
-          setUser(userData.success);
-        } else {
-          throw new Error('Authentication failed');
-        }
-      } catch (err) {
-        console.error(err);
+        const userData = await getUser();
+        setUser(userData.success);
+      } catch(err) {
+        console.log('Error fetching user: ', err);
       }
-    }
-    getUser();
-  }, []);
+    };
+    fetchUser();
+  }, [location]);
 
+  const handleClickAppName = (e) => {
+    e.preventDefault();
+    return navigate('/');
+  };
   
   const handleClickLogout = async (e) => {
     e.preventDefault();
@@ -61,7 +55,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <h1>Portfolio Project: E-Commerce App</h1>
+      <h1 onClick={handleClickAppName}>Portfolio Project: E-Commerce App</h1>
       {user ? (
         <button onClick={handleClickLogout}>Logout</button>
       ) : (

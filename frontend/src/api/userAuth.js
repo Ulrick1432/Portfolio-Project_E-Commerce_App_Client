@@ -43,3 +43,23 @@ export const logout = async () => {
   }
 };
 
+export const getUser = async () => {
+  try {
+    const response = await fetch(`${api}/auth/login/success`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    if (response.status === 200) {
+      const userData = await response.json();
+      return userData;
+    } else {
+      throw new Error('Authentication failed');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
