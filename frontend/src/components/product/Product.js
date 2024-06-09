@@ -4,7 +4,7 @@
 import { useNavigate } from "react-router-dom";
 import { deleteCartItemInSession } from "../../api/cart";
 
-const Product = ({ name, price, stock, description, image, id, quantity, deletable }) => {
+const Product = ({ name, price, stock, description, image, id, quantity, deletable, onRemove  }) => {
   const navigate = useNavigate();
 
   const handleClickProduct = (id) => {
@@ -21,6 +21,7 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
   const handleClickRemoveProduct = async () => {
     console.log(id)
     const response = await deleteCartItemInSession(id);
+    onRemove();
     console.log(response)
   };
 
