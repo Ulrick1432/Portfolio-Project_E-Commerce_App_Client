@@ -23,7 +23,7 @@ module.exports = class UserModel {
 
       // Insert the new user into the database
       const registerUser = await db.query(
-        'INSERT INTO "Users" ("firstname", "lastname", "username", "email", "password", "googleId") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        'INSERT INTO "users" ("firstname", "lastname", "username", "email", "password", "googleId") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
         [firstname, lastname, username, email, hashedPassword, googleId]
       );
       console.log('Insert the new user into the database');
@@ -50,7 +50,7 @@ module.exports = class UserModel {
         throw new Error('Error logging in (wrong username or password)');
       }
 
-      const isValidPassword = await bcrypt.compare(password, user.Password);
+      const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
         throw new Error('Error logging in (wrong username or password)');
       }
