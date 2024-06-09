@@ -5,8 +5,8 @@ module.exports = class OrderModel {
   async createOrder(status, userId, cartId) {
     try {
       const createNewOrder = await db.query(
-        `INSERT INTO "Orders" 
-        ("Status", "user_id", "cart_id") 
+        `INSERT INTO "orders" 
+        ("status", "user_id", "cart_id") 
         VALUES ($1, $2, $3) 
         RETURNING *`,
         [status, userId, cartId]
@@ -21,7 +21,7 @@ module.exports = class OrderModel {
   // Get all Orders
   async getAllOrders() {
     try {
-      const allOrders = await db.query(`SELECT * FROM "Orders"`);
+      const allOrders = await db.query(`SELECT * FROM "orders"`);
       const orders = allOrders.rows;
       return orders;
     } catch(err) {
@@ -32,7 +32,7 @@ module.exports = class OrderModel {
   // Get order by id
   async getOrderById(orderId) {
     try {
-      const orderById = await db.query(`SELECT * FROM "Orders" WHERE "id" = $1`, [orderId]);
+      const orderById = await db.query(`SELECT * FROM "orders" WHERE "id" = $1`, [orderId]);
       if (orderById.rows?.length) {
         return orderById.rows[0];
       }

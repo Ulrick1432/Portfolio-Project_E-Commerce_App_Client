@@ -8,7 +8,7 @@ module.exports = class CartsModel {
   // POST Carts
   async createCart(created) {
     try {
-      const createNewCart = await db.query('INSERT INTO "Carts" ("Created") VALUES ($1) RETURNING *', [created]);
+      const createNewCart = await db.query('INSERT INTO "carts" ("created") VALUES ($1) RETURNING *', [created]);
       const newCart = createNewCart.rows[0];
       return newCart
     } catch (err) {
@@ -18,7 +18,7 @@ module.exports = class CartsModel {
   // GET Carts by id
   async getCart(id) {
     try {
-      const cart = await db.query('SELECT * FROM "Carts" WHERE "id" = $1', [id]);
+      const cart = await db.query('SELECT * FROM "carts" WHERE "id" = $1', [id]);
       if (cart.rows?.length) {
         return cart.rows[0];
       }
@@ -30,7 +30,7 @@ module.exports = class CartsModel {
   // POST CartsItems
   async addItem(created, id, productId) {
     try {
-      const addNewItem = await db.query('INSERT INTO "CartItems" ("Created", "Cart_id", "Product_id") VALUES ($1, $2, $3)',
+      const addNewItem = await db.query('INSERT INTO "cart_items" ("created", "cart_id", "product_id") VALUES ($1, $2, $3)',
       [created, id, productId]);
       const newItem = addNewItem.rows[0];
       return newItem;
@@ -41,7 +41,7 @@ module.exports = class CartsModel {
   // GET all CartsItems in cart
   async getItems(cartId) {
     try {
-      const GetAllItems = await db.query('SELECT * FROM "CartItems" WHERE "Cart_id" = $1', [cartId]);
+      const GetAllItems = await db.query('SELECT * FROM "cart_items" WHERE "cart_id" = $1', [cartId]);
       if (GetAllItems.rows?.length) {
         return GetAllItems.rows;
       }
@@ -56,9 +56,9 @@ module.exports = class CartsModel {
     try {
       const quantity = await db.query(
         `SELECT COUNT(*) 
-        FROM "CartItems" 
-        WHERE "Cart_id" = $1
-        AND "Product_id" = $2`, [cartId, productId]);
+        FROM "cart_items" 
+        WHERE "cart_id" = $1
+        AND "product_id" = $2`, [cartId, productId]);
       if (quantity) {
         const count = parseInt(quantity.rows[0].count);
         return count;
@@ -73,10 +73,10 @@ module.exports = class CartsModel {
   async getProductPrice(cartId) {
     try {
       const price = await db.query(
-        `SELECT "Products"."Price"
-        FROM "Products", "CartItems"
-        WHERE "Products"."id" = "CartItems"."Product_id"
-        AND "Cart_id" = $1`, [cartId]);
+        `SELECT "products"."price"
+        FROM "products", "cart_items"
+        WHERE "products"."id" = "cart_items"."product_id"
+        AND "cart_id" = $1`, [cartId]);
       if (price.rows?.length) {
         return price.rows;
       }
@@ -90,10 +90,10 @@ module.exports = class CartsModel {
   async getProductId(cartId) {
     try {
       const product = await db.query(
-        `SELECT "Products"."id"
-        FROM "Products", "CartItems"
-        WHERE "Products"."id" = "CartItems"."Product_id"
-        AND "Cart_id" = $1`, [cartId]);
+        `SELECT "products"."id"
+        FROM "products", "cart_items"
+        WHERE "products"."id" = "cart_items"."product_id"
+        AND "cart_id" = $1`, [cartId]);
       if (product.rows?.length) {
         return product.rows;
       }
@@ -107,8 +107,8 @@ module.exports = class CartsModel {
   async cartCheckout(quantity, price, orderId, productId) {
     try {
       const addNewItemToOrder = await db.query(
-        `INSERT INTO "OrderItems" 
-        ("Quantity", "Price", "order_id", "product_id")
+        `INSERT INTO "order_items" 
+        ("quantity", "price", "order_id", "product_id")
         VALUES ($1, $2, $3, $4)
         RETURNING *`,
         [quantity, price, orderId, productId]

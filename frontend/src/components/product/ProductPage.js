@@ -35,11 +35,11 @@ const ProductPage = () => {
   
   return (
     <div className="productPage">
-      <img src={product.Image} alt={product.Name}/>
-      <h3 className="productName"> {product.Name} </h3>
-      <p className="productPrice"> {product.Price} </p>
-      <p className="productStock"> {product.Stock} </p>
-      <p className="productDescription"> {product.Description} </p>
+      <img src={product.image} alt={product.name}/>
+      <h3 className="productName"> {product.name} </h3>
+      <p className="productPrice"> {product.price} </p>
+      <p className="productStock"> {product.stock} </p>
+      <p className="productDescription"> {product.description} </p>
       <button onClick={handleClickAddToCart}>Add to cart</button>
     </div>
   )

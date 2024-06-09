@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt');
 
 module.exports = class UserModel {
   async registerUser(data) {
-    const { firstName, lastName, userName, email, password, googleId } = data;
+    const { firstname, lastname, username, email, password, googleId } = data;
     try {
       // Check if the email is already registered
-      const doesEmailExist = await db.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
+      const doesEmailExist = await db.query('SELECT * FROM "users" WHERE "email" = $1', [email]);
       console.log('Check if the email is already registered');
       if (doesEmailExist.rows[0]) {
         throw new Error('Email already registered');
@@ -23,8 +23,8 @@ module.exports = class UserModel {
 
       // Insert the new user into the database
       const registerUser = await db.query(
-        'INSERT INTO "Users" ("First_Name", "Last_Name", "Username", "Email", "Password", "GoogleId") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [firstName, lastName, userName, email, hashedPassword, googleId]
+        'INSERT INTO "Users" ("firstname", "lastname", "username", "email", "password", "googleId") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [firstname, lastname, username, email, hashedPassword, googleId]
       );
       console.log('Insert the new user into the database');
       
@@ -42,7 +42,7 @@ module.exports = class UserModel {
   async login(username, password) {
     try {
       // Check if user exists
-      const findUsername = await db.query('SELECT * FROM "Users" WHERE "Username" = $1', [username]);
+      const findUsername = await db.query('SELECT * FROM "users" WHERE "username" = $1', [username]);
       const user = findUsername.rows[0];
       
       // If no user found, reject
@@ -64,7 +64,7 @@ module.exports = class UserModel {
 
   async getUserById(id) {
     try {
-      const findUserById = await db.query('SELECT * FROM "Users" WHERE "id" = $1', [id]);
+      const findUserById = await db.query('SELECT * FROM "users" WHERE "id" = $1', [id]);
       const user = findUserById.rows[0];
       if (!user) {
         throw new Error('Error Can\'t find user by id');
@@ -78,7 +78,7 @@ module.exports = class UserModel {
 
   async getUserByGoogleId(id) {
     try {
-      let findUserById = await db.query('SELECT * FROM "Users" WHERE "GoogleId" = $1', [id]);
+      let findUserById = await db.query('SELECT * FROM "users" WHERE "googleId" = $1', [id]);
       const user = findUserById.rows[0];
       console.log('This is user in getUserByGoogleId → ' + user.googleId);
       if (!user) {
@@ -93,10 +93,6 @@ module.exports = class UserModel {
     }
   }
   
-  
-  
-  
-
   async googleIdFindOrCreateAcc(profile) {
     console.log(profile);
     console.log('This is googleId in googleIdFindOrCreateAcc → ' + profile.id);
