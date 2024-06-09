@@ -37,7 +37,6 @@ module.exports = (app, passport) => {
   // Check Login status Endpoint
   router.get('/login/success', (req, res, next) => {
     try {
-      console.log('This is the req.user in /login/success router → ', req.user);
       if(req.user) {
         return res.status(200).json({
           success: true,

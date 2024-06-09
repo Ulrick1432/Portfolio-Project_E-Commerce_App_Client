@@ -19,9 +19,27 @@ export const addToCartInSession = async (item) => {
   }
 };
 
-// Increase product quantity by id
-
-// Decrease product quantity by id
+// Update product quantity by id from session-based cart
+export const updateQuantityToCartInSession = async (id, newQuantity, oldQuantity) => {
+  try {
+    const response = await fetch(`${api}/cart/update_cart_item_by_id_in_session`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, newQuantity, oldQuantity }),
+      credentials: 'include'
+    })
+    if (response.status === 204) {
+      return { message: 'quantity cannot be changed to 0. instead click on a remove button' };
+    }
+    const data = await response.json();
+    console.log('This is the response from updateQuantityToCartInSession: → ', data);
+    return data;
+  } catch(err) {
+    console.log('Error updating quantity in req.session.cart: ', err);
+  }
+};
 
 // Delete product from cart in session
 export const deleteCartItemInSession = async (id) => {
@@ -31,12 +49,11 @@ export const deleteCartItemInSession = async (id) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id }), // Ensure the id is sent as a JSON object
+      body: JSON.stringify({ id }),
       credentials: 'include'
     });
 
     if (response.status === 204) {
-      console.log('Item does not exist in the cart.');
       return { message: 'Item does not exist in the cart' };
     }
 

@@ -2,7 +2,7 @@
 //import defaultImage from '../../resources/productImages/default-product-image.png'
 //Source for default img "resources/productImages/default-product-image.png"
 import { useNavigate } from "react-router-dom";
-import { deleteCartItemInSession } from "../../api/cart";
+import { deleteCartItemInSession, updateQuantityToCartInSession } from "../../api/cart";
 
 const Product = ({ name, price, stock, description, image, id, quantity, deletable, onRemove  }) => {
   const navigate = useNavigate();
@@ -10,13 +10,15 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
   const handleClickProduct = (id) => {
     return navigate(`/product/${id}`);
   }
-  const handleClickIncreaseQuantity = () => {
-    return quantity + 1;
+  const handleQuantityChange = async (e) => {
+    const oldQuantity = quantity;
+    let newQuantity = e.target.value;
+    console.log('This is the newQuantity: → ',newQuantity);
+    const response = await updateQuantityToCartInSession(id, newQuantity, oldQuantity);
+    console.log('This is the response in handleQuantityChange from updateQuantityToCartInSession: → ', response);
+    onRemove();
   };
 
-  const handleClickDecreaseQuantity = () => {
-    return quantity + 1;
-  };
 
   const handleClickRemoveProduct = async () => {
     console.log(id)
@@ -32,7 +34,7 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
       {quantity ? (
         <div>
           <label htmlFor="quantity">Quantity</label>
-          <input type="number" name="quantity" defaultValue={quantity}/>
+          <input type="number" name="quantity" min={0} defaultValue={quantity} onChange={handleQuantityChange} />
         </div>
         ) : null}
       {deletable ? (<button onClick={handleClickRemoveProduct}>Remove product</button>) : null}
