@@ -11,7 +11,7 @@ const ProductModelInstance = new ProductModel();
     app.use('/cart', router);
 
     // POST Session-Based cart add
-    router.post('/add_to_cart_in_session', async (req, res) => {
+    router.post('/add_to_cart_in_session', (req, res) => {
       const item = req.body.item;
       if (!req.session.cart) {
         req.session.cart = [];
@@ -43,5 +43,19 @@ const ProductModelInstance = new ProductModel();
         next(err);
       }
     });
+
+  // DELETE product from session-based cart
+  router.delete('/delete_cart_item_by_id_in_session', (req, res) => {
+    const { id } = req.body;
+    console.log('This is the req.body.id: → ', id);
+    const idStr = id.toString();
+    console.log('This is the idStr: → ', idStr);
+    if (!req.session.cart.includes(idStr)) {
+      return res.status(200).json({ message: 'Item does not exist in the cart' });
+    }
+    req.session.cart = req.session.cart.filter(item => item !== idStr);
+    console.log(req.session.cart);
+    res.status(200).json({ message: 'Item deleted', cart: req.session.cart });
+  });
 
   }

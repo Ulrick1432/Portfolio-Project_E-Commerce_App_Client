@@ -61,12 +61,14 @@ const CartPage = () => {
               id={product.id} 
               description={product.description}
               quantity={product.quantity}
+              deletable={true}
             />
           ))}
         </ul>
       ) : (
         <p>No products in the cart.</p>
       )}
+      {allProducts && allProducts.length > 0 ? (<button>Checkout</button>): null}
     </div>
   );
 }
