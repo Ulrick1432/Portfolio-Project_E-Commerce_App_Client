@@ -31,8 +31,8 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
       <p className="productPrice"> Price {price} </p>
       {quantity ? (
         <div>
-          <label for="quantity">Quantity</label>
-          <input type="number" name="quantity" value={quantity}/>
+          <label htmlFor="quantity">Quantity</label>
+          <input type="number" name="quantity" defaultValue={quantity}/>
         </div>
         ) : null}
       {deletable ? (<button onClick={handleClickRemoveProduct}>Remove product</button>) : null}

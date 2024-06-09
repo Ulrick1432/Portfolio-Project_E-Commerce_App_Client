@@ -13,7 +13,9 @@ const Header = () => {
     const fetchUser = async () => {
       try {
         const userData = await getUser();
-        setUser(userData.success);
+        if (userData) {
+          setUser(userData.success);
+        }
       } catch(err) {
         console.log('Error fetching user: ', err);
       }
