@@ -54,12 +54,12 @@ const CartPage = () => {
           {allProducts.map(product => (
             <Product 
               key={product.id} 
-              name={product.Name} 
-              price={product.Price} 
-              stock={product.Stock} 
-              image={product.Image} 
+              name={product.name} 
+              price={product.price} 
+              stock={product.stock} 
+              image={product.image} 
               id={product.id} 
-              description={product.Description}
+              description={product.description}
               quantity={product.quantity}
             />
           ))}
