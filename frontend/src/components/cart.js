@@ -13,6 +13,11 @@ const CartPage = () => {
       let data = await response;
       console.log('This is the response in the useEffect getAllProducts: → ', data);
 
+      //If no data allProduct state is updated and triggers a re-render.
+      if (!data) {
+        return setAllProducts([]);
+      };
+
       let getQuantityFromSession = await getCartInSession();
       console.log('This is the getQuantityFromSession → ', getQuantityFromSession);
 

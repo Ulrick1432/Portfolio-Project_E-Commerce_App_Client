@@ -39,7 +39,6 @@ module.exports = class ProductModel {
 
   async getMultipleProductsById(IdArr) {
     try {
-      console.log('This is the IdArr in getMultipleProductsById(IdArr): → ', IdArr);
       const products = await db.query('SELECT * FROM "products" WHERE "id" = ANY($1::int[])', [IdArr]);
       if (products.rows?.length) {
         return products.rows;
