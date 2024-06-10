@@ -52,46 +52,42 @@ const ProductModelInstance = new ProductModel();
     res.status(200).json({ message: 'Item deleted', cart: req.session.cart });
   });
 
-// Update product quantity by id from session-based cart
-router.put('/update_cart_item_by_id_in_session', (req, res) => {
-  console.log('This is req.session.cart in update_cart_item_by_id_in_session before filtering: ', req.session.cart);
-  const { id, newQuantity, oldQuantity } = req.body;
-  const idStr = id.toString();
-  let parsedNewQuantity = parseInt(newQuantity);
-  let parsedOldQuantity = parseInt(oldQuantity);
-  console.log('This is the req.body.id: → ', idStr);
-  console.log('This is the req.body.quantity: → ', parsedOldQuantity);
-  console.log('This is the parsedNewQuantity → ', parsedNewQuantity);
+  // Update product quantity by id from session-based cart
+  router.put('/update_cart_item_by_id_in_session', (req, res) => {
+    console.log('This is req.session.cart in update_cart_item_by_id_in_session before filtering: ', req.session.cart);
+    const { id, newQuantity, oldQuantity } = req.body;
+    const idStr = id.toString();
+    let parsedNewQuantity = parseInt(newQuantity);
+    let parsedOldQuantity = parseInt(oldQuantity);
+    console.log('This is the req.body.id: → ', idStr);
+    console.log('This is the req.body.quantity: → ', parsedOldQuantity);
+    console.log('This is the parsedNewQuantity → ', parsedNewQuantity);
 
-  // Check if old quantity is 0 or negative
-  if (parsedOldQuantity <= 0) {
-    return res.status(400).json({ message: 'Quantity cannot be 0 or negative. Instead, click on the remove button.' });
-  }
-
-  let newArr;
-  // Update quantity if the new quantity is less than the old quantity
-  if (parsedOldQuantity > parsedNewQuantity) {
-    newArr = req.session.cart.filter((item, index) => {
-      if (item === idStr && parsedNewQuantity > 0) {
-        parsedNewQuantity--;
-        return true;
-      }
-      return item !== idStr;
-    });
-  } else { // Add the ID (parsedNewQuantity - parsedOldQuantity) times to the cart
-    newArr = [...req.session.cart];
-    const diff = parsedNewQuantity - parsedOldQuantity;
-    for (let i = 0; i < diff; i++) {
-      newArr.push(idStr);
+    // Check if old quantity is 0 or negative
+    if (parsedOldQuantity <= 0) {
+      return res.status(400).json({ message: 'Quantity cannot be 0 or negative. Instead, click on the remove button.' });
     }
-  }
 
-  req.session.cart = newArr;
-  console.log('This is req.session.cart after filtering: ', req.session.cart);
-  res.status(200).json({ message: 'Quantity updated', cart: req.session.cart });
-});
+    let newArr;
+    // Update quantity if the new quantity is less than the old quantity
+    if (parsedOldQuantity > parsedNewQuantity) {
+      newArr = req.session.cart.filter((item, index) => {
+        if (item === idStr && parsedNewQuantity > 0) {
+          parsedNewQuantity--;
+          return true;
+        }
+        return item !== idStr;
+      });
+    } else { // Add the ID (parsedNewQuantity - parsedOldQuantity) times to the cart
+      newArr = [...req.session.cart];
+      const diff = parsedNewQuantity - parsedOldQuantity;
+      for (let i = 0; i < diff; i++) {
+        newArr.push(idStr);
+      }
+    }
 
-
-
-
+    req.session.cart = newArr;
+    console.log('This is req.session.cart after filtering: ', req.session.cart);
+    res.status(200).json({ message: 'Quantity updated', cart: req.session.cart });
+  });
 }

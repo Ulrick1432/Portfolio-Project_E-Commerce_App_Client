@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-
 const stripe = require('stripe')(process.env.STRIPE_SECRET_TEST_KEY);
 
 module.exports = (app) => {
-app.use('/checkout', router)
+
+  app.use('/checkout', router)
 
   router.post('/create_payment_intent', async (req, res) => {
     const { items } = req.body;
@@ -17,7 +17,7 @@ app.use('/checkout', router)
     };
 
     // Create a PaymentIntent with the order amount and currency
-    const PaymentIntent = await stripe.paymentIntents.create({
+    const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateOrderAmount(items),
       currency: 'dkk',
     });
