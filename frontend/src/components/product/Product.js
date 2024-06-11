@@ -13,18 +13,14 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
   const handleQuantityChange = async (e) => {
     const oldQuantity = quantity;
     let newQuantity = e.target.value;
-    console.log('This is the newQuantity: → ',newQuantity);
-    const response = await updateQuantityToCartInSession(id, newQuantity, oldQuantity);
-    console.log('This is the response in handleQuantityChange from updateQuantityToCartInSession: → ', response);
+    await updateQuantityToCartInSession(id, newQuantity, oldQuantity);
     onRemove();
   };
 
 
   const handleClickRemoveProduct = async () => {
-    console.log(id)
-    const response = await deleteCartItemInSession(id);
+    await deleteCartItemInSession(id);
     onRemove();
-    console.log(response)
   };
 
   return (

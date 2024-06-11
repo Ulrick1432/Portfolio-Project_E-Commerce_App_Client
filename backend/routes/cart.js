@@ -30,6 +30,9 @@ const ProductModelInstance = new ProductModel();
 
     router.get('/get_all_products_in_session_from_db', async (req, res, next) => {
       try {
+        if (!req.session.cart) {
+          return res.status(204).json({ message: 'No products are added to cart' });
+        }
         // If req.session.cart = [ '4', '4', '4', '5', '5', '5' ] the 2 lines down will makes it [ 4, 5 ]
         // so it ensures to only query the database once per unique product id
         const IdArr = req.session.cart.map(Number); // Convert string IDs to integers
@@ -54,14 +57,10 @@ const ProductModelInstance = new ProductModel();
 
   // Update product quantity by id from session-based cart
   router.put('/update_cart_item_by_id_in_session', (req, res) => {
-    console.log('This is req.session.cart in update_cart_item_by_id_in_session before filtering: ', req.session.cart);
     const { id, newQuantity, oldQuantity } = req.body;
     const idStr = id.toString();
     let parsedNewQuantity = parseInt(newQuantity);
     let parsedOldQuantity = parseInt(oldQuantity);
-    console.log('This is the req.body.id: → ', idStr);
-    console.log('This is the req.body.quantity: → ', parsedOldQuantity);
-    console.log('This is the parsedNewQuantity → ', parsedNewQuantity);
 
     // Check if old quantity is 0 or negative
     if (parsedOldQuantity <= 0) {
@@ -87,7 +86,6 @@ const ProductModelInstance = new ProductModel();
     }
 
     req.session.cart = newArr;
-    console.log('This is req.session.cart after filtering: ', req.session.cart);
     res.status(200).json({ message: 'Quantity updated', cart: req.session.cart });
   });
 }

@@ -44,7 +44,7 @@ module.exports = (app, passport) => {
           user: req.user
         });
       }
-      return res.status(401).send({
+      return res.status(200).send({
         success: false,
         message: 'No user is logged in'
       });

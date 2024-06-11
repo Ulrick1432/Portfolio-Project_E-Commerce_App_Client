@@ -14,8 +14,6 @@ import { useEffect, useState } from 'react';
 import { createPaymentIntent } from './api/checkout';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-console.log('This is the STRIPE_PUBLISHABLE_KEY: → ', process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-console.log(process.env)
 
 const App = () => {
   const [clientSecret, setClientSecret] = useState('');

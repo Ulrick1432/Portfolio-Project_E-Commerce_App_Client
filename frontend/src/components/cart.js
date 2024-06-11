@@ -11,6 +11,10 @@ const CartPage = () => {
     try {
       const response = await getAllProductsInSessionFromDB();
       let data = await response;
+
+      if (!data) {
+        return console.log('No products are added to cart');
+      }
       console.log('This is the response in the useEffect getAllProducts: → ', data);
 
       //If no data allProduct state is updated and triggers a re-render.
@@ -33,9 +37,6 @@ const CartPage = () => {
         let quantity = countMap[productId] || 0; // Get quantity from countMap
         product.quantity = quantity;
       }
-
-      console.log('This is the countmap: → ', countMap);
-      console.log('This is data after getting quantity: → ', data);
 
       setAllProducts(data);
     } catch (err) {

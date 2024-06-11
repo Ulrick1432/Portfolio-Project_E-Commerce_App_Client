@@ -12,10 +12,9 @@ export const addToCartInSession = async (item) => {
       credentials: 'include'
     });
     const data = await response.json();
-    console.log('This is the response from addToCartInSession: → ', data);
     return data;
   } catch(err) {
-    console.log('Error adding item to cart in session: ', err);
+    console.error('Error adding item to cart in session: ', err);
   }
 };
 
@@ -34,10 +33,9 @@ export const updateQuantityToCartInSession = async (id, newQuantity, oldQuantity
       return { message: 'quantity cannot be changed to 0. instead click on a remove button' };
     }
     const data = await response.json();
-    console.log('This is the response from updateQuantityToCartInSession: → ', data);
     return data;
   } catch(err) {
-    console.log('Error updating quantity in req.session.cart: ', err);
+    console.error('Error updating quantity in req.session.cart: ', err);
   }
 };
 
@@ -58,10 +56,9 @@ export const deleteCartItemInSession = async (id) => {
     }
 
     const data = await response.json();
-    console.log('This is the response from deleteCartItemInSession: → ', data);
     return data;
   } catch (err) {
-    console.log('Error deleting item from cart in session: ', err);
+    console.error('Error deleting item from cart in session: ', err);
   }
 };
 
@@ -72,10 +69,9 @@ export const getCartInSession = async () => {
       credentials: 'include'
     });
     const data = await response.json();
-    console.log('This is the response from getCartInSession: → ', data);
     return data;
   } catch(err) {
-    console.log('Error getting items/cart from the session: ', err);
+    console.error('Error getting items/cart from the session: ', err);
   }
 };
 
@@ -85,10 +81,12 @@ export const getAllProductsInSessionFromDB = async () => {
     const response = await fetch(`${api}/cart/get_all_products_in_session_from_db`, {
       credentials: 'include'
     });
+    if (response.status === 204) {
+      return response.message
+    }
     const data = await response.json();
-    console.log('This is the response from getAllProductsInSessionFromDB: → ', data);
     return data;
   } catch(err) {
-    console.log('Error getting all products in session from database: → ', err);
+    console.error('Error getting all products in session from database: → ', err);
   }
 };
