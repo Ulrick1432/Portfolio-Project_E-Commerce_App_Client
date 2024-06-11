@@ -9,10 +9,28 @@ import { loginAction } from "./components/authentication/Login";
 import ProductPage from "./components/product/ProductPage";
 import Layout from "./components/Layout";
 import CartPage from "./components/cart";
+import CheckoutForm from './components/checkoutForm/CheckoutForm';
+import { useEffect, useState } from 'react';
+import { createPaymentIntent } from './api/checkout';
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+console.log('This is the STRIPE_PUBLISHABLE_KEY: → ', process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+console.log(process.env)
 
 const App = () => {
+  const [clientSecret, setClientSecret] = useState('');
+
+  useEffect( () => {
+    const fetchPaymentIntent  = async () => {
+      try {
+        const paymentIntent = await createPaymentIntent();
+        setClientSecret(paymentIntent);
+      } catch(err) {
+        console.error('Failed to fetch payment intent: ', err);
+      }
+    };
+    fetchPaymentIntent();
+  }, []);
 
   // sets up the router with JSX Route elements using createBrowserRouter() and createRoutesFromElements().
   const router = createBrowserRouter(
@@ -24,6 +42,7 @@ const App = () => {
           <Route path='/login' element={<LoginPage/>} action={loginAction}></Route>
           <Route path='/product/:id' element={<ProductPage/>}></Route>
           <Route path='/cart' element={<CartPage/>}></Route>
+          <Route path='/checkout' element={<CheckoutForm/>}></Route>
         </Route>
       </>
     )
@@ -32,14 +51,18 @@ const App = () => {
   // Options used for stripe
   const options = {
     // passing the client secret obtained from the server
-    clientSecret: '{{CLIENT_SECRET}}', // Replace with your actual client secret or pass it as a prop
+    clientSecret,
   };
 
+  if (!clientSecret) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <Elements stripe={stripePromise} options={options} >
+    <Elements stripe={stripePromise} options={options}>
       <RouterProvider router={router}  />
     </Elements>
-  )
+  );
 };
 
 export default App;
