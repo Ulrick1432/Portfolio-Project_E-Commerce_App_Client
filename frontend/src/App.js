@@ -23,8 +23,11 @@ const App = () => {
   useEffect( () => {
     const fetchPaymentIntent  = async () => {
       try {
-        const paymentIntent = await createPaymentIntent();
-        setClientSecret(paymentIntent);
+        if (clientSecret === '') {
+          const paymentIntent = await createPaymentIntent();
+          setClientSecret(paymentIntent);
+        }
+        return;
       } catch(err) {
         console.error('Failed to fetch payment intent: ', err);
       }
@@ -59,7 +62,7 @@ const App = () => {
   }
 
   return (
-    <Elements stripe={stripePromise} options={options}>
+    <Elements stripe={stripePromise} options={options} key={clientSecret}>
       <RouterProvider router={router}  />
     </Elements>
   );
