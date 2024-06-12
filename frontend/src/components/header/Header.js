@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { logout } from "../api/userAuth";
-import { getCartInSession } from "../api/cart";
-import { getUser } from "../api/userAuth";
+import { logout } from "../../api/userAuth";
+import { getCartInSession } from "../../api/cart";
+import { getUser } from "../../api/userAuth";
+import './header.css';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -57,17 +58,18 @@ const Header = () => {
 
   return (
     <header className="header">
-      <h1 onClick={handleClickAppName}>Portfolio Project: E-Commerce App</h1>
-      {user ? (
-        <button onClick={handleClickLogout}>Logout</button>
-      ) : (
-        <div>
-          <button onClick={handleClickLogin}>Login</button>
-          <br />
-          <button onClick={handleClickCreateAccount}>Create account</button>
-        </div>
-      )}
-      <button onClick={handleClickGetCart}>cart</button>
+      <h1 className="app-name" onClick={handleClickAppName}>Portfolio Project: E-Commerce App</h1>
+      <div className="buttons">
+        {user ? (
+          <button onClick={handleClickLogout}>Logout</button>
+        ) : (
+          <>
+            <button onClick={handleClickLogin}>Login</button>
+            <button onClick={handleClickCreateAccount}>Create account</button>
+          </>
+        )}
+        <button onClick={handleClickGetCart}>cart</button>
+      </div>
     </header>
   );
 }

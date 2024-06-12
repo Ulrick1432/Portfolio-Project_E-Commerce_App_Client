@@ -1,5 +1,6 @@
 import { api } from ".";
 
+// { id: "xl-tshirt" } should be change to the real itmes from the cart
 export const createPaymentIntent = async () => {
   try {
     const response = await fetch(`${api}/checkout/create_payment_intent`, {

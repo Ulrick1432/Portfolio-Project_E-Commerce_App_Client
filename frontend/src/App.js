@@ -1,3 +1,4 @@
+import './app.css';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from "react-router-dom";

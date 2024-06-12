@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { getAllProductsInSessionFromDB, getCartInSession } from "../api/cart";
 import Product from "./product/Product";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true); // State to manage loading
 
@@ -59,26 +61,31 @@ const CartPage = () => {
       {loading ? (
         <p>Loading products...</p>
       ) : allProducts && allProducts.length > 0 ? (
-        <ul>
-          {allProducts.map(product => (
-            <Product 
-              key={product.id} 
-              name={product.name} 
-              price={product.price} 
-              stock={product.stock} 
-              image={product.image} 
-              id={product.id} 
-              description={product.description}
-              quantity={product.quantity}
-              deletable={true}
-              onRemove={() => handleProducts()}
-            />
-          ))}
-        </ul>
+        <>
+          <ul>
+            {allProducts.map(product => (
+              <Product 
+                key={product.id} 
+                name={product.name} 
+                price={product.price} 
+                stock={product.stock} 
+                image={product.image} 
+                id={product.id} 
+                description={product.description}
+                quantity={product.quantity}
+                deletable={true}
+                onRemove={() => handleProducts()}
+              />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>No products in the cart.</p>
       )}
-      {allProducts && allProducts.length > 0 ? (<button>Checkout</button>): null}
+      {allProducts && allProducts.length > 0 ? (
+        <button onClick={() => navigate('/checkout')}>Checkout</button>
+        ): null
+      }
     </div>
   );
 }
