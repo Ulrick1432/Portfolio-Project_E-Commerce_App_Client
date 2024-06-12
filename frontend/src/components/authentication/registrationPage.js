@@ -2,6 +2,8 @@ import React from "react";
 import { Form, redirect, useNavigate } from "react-router-dom";
 import { createAccount } from "../../api/registration";
 import { login } from "../../api/userAuth";
+import './registrationPage.css';
+
 const RegistrationPage = () => {
   const navigate = useNavigate();
 
@@ -10,20 +12,15 @@ const RegistrationPage = () => {
     return navigate('/login');
   };
 
-  const handleClickHome = (e) => {
-    e.preventDefault();
-    return navigate('/');
-  };
-
   return (
     <div id="registrationPage">
       <h1>Create account</h1>
-      <div>
-        <button onClick={handleClickHome}>Home</button>
-        <h3>Do you already have an account? click here →</h3>
+      <div className="registrationPage-already-have-account">
+        <h3>Do you already have an account?</h3>
+        <h3>▼</h3>
         <button onClick={handleClickLogin}>Login</button>
       </div>
-      <Form method="post" action='/register'>
+      <Form className="registration-form" method="post" action='/register'>
         <label>
           First name:
           <input type="text" name="firstName"/>

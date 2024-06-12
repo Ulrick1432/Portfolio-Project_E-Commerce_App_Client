@@ -3,6 +3,7 @@
 //Source for default img "resources/productImages/default-product-image.png"
 import { useNavigate } from "react-router-dom";
 import { deleteCartItemInSession, updateQuantityToCartInSession } from "../../api/cart";
+import './product.css';
 
 const Product = ({ name, price, stock, description, image, id, quantity, deletable, onRemove  }) => {
   const navigate = useNavigate();

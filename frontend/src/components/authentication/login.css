@@ -1,0 +1,80 @@
+/* loginPage.css */
+#loginPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+}
+
+#loginPage h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#loginPage div {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#loginPage h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+  color: #666;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 1em;
+  color: #333;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensures padding is included in the width calculation */
+}
+
+.other-options-login-form {
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (max-width: 480px) {
+  #loginPage {
+    padding: 10px;
+  }
+
+  .login-form {
+    padding: 15px;
+  }
+
+  button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  .login-form label {
+    font-size: 0.9em;
+  }
+}

@@ -1,0 +1,64 @@
+/* product.css */
+.product {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.productName {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: #333;
+}
+
+.productPrice {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.productStock {
+  color: green;
+  margin-bottom: 10px;
+}
+
+.productDescription {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.product img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.product img:hover {
+  transform: scale(1.05);
+}
+
+.product input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+button {
+  margin-top: 10px;
+}

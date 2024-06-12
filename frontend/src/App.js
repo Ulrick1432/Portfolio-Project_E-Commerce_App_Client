@@ -2,7 +2,7 @@ import './app.css';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from "react-router-dom";
-import HomePage from "./components/HomePage";
+import HomePage from "./components/homePage/HomePage";
 import RegistrationPage from "./components/authentication/RegistrationPage";
 import LoginPage from "./components/authentication/Login";
 import { registrationAction } from "./components/authentication/RegistrationPage";

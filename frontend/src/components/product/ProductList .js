@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Product from "./Product";
 import { getAllProducts } from "../../api/product";
+import './productList.css';
 
 const ProductList = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -23,9 +24,9 @@ const ProductList = () => {
 
 
   return (
-    <div>
+    <>
       <h2>List of products</h2>
-      <ul>
+      <ul className="product-list">
         {allProducts.map(product => (
           <Product 
             key={product.id} 
@@ -38,7 +39,7 @@ const ProductList = () => {
           />
         ))}
       </ul>
-    </div>
+    </>
   );
 }
 

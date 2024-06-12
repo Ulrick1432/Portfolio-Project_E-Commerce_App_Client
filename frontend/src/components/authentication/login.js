@@ -2,6 +2,7 @@ import React from "react";
 import { Form, redirect, useNavigate } from "react-router-dom";
 import { login } from "../../api/userAuth";
 import { api } from "../../api";
+import './login.css';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -9,11 +10,6 @@ const LoginPage = () => {
   const handleClickRegistration = (e) => {
     e.preventDefault();
     return navigate('/register');
-  };
-
-  const handleClickHome = (e) => {
-    e.preventDefault();
-    return navigate('/');
   };
 
   const handleClickGoogleLogin = (e) => {
@@ -24,23 +20,21 @@ const LoginPage = () => {
   return (
     <div id="loginPage">
       <h1>Login</h1>
-      <div>
-        <button onClick={handleClickHome}>Home</button>
-        <h3>Do you not already have an account? click here to create one →</h3>
-        <button onClick={handleClickRegistration}>Create account</button>
-      </div>
-      <Form method="post" action="/login">
+      <Form className="login-form" method="post" action="/login">
         <label>
           E-mail
-          <input type="email" name="email"/>
+          <input type="email" name="email" required/>
         </label>
         <label>
           Password
-          <input type="password" name="password"/>
+          <input type="password" name="password" required/>
         </label>
         <button type="submit" >Login</button>
       </Form>
-      <button onClick={handleClickGoogleLogin}>login with Google</button>
+      <div className="other-options-login-form">
+        <button onClick={handleClickGoogleLogin}>login with Google</button>
+        <button onClick={handleClickRegistration}>Create account</button>
+      </div>
     </div>
   )
 }
