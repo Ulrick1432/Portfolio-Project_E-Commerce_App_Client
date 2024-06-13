@@ -1,59 +1,14 @@
-import { useEffect, useState } from "react";
-import { getAllProductsInSessionFromDB, getCartInSession } from "../api/cart";
-import Product from "./product/Product";
-import { useNavigate } from "react-router-dom";
+// src/components/CartPage.js
+import React from 'react';
+import useGetAllProductsInSessionFromDbWithQuantity from '../hooks/getProductInSessionFromDB';
+import Product from './product/Product';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true); // State to manage loading
-
-  
-  const handleProducts = async () => {
-    try {
-      const response = await getAllProductsInSessionFromDB();
-      let data = await response;
-
-      if (!data) {
-        return console.log('No products are added to cart');
-      }
-      console.log('This is the response in the useEffect getAllProducts: → ', data);
-
-      //If no data allProduct state is updated and triggers a re-render.
-      if (!data) {
-        return setAllProducts([]);
-      };
-
-      let getQuantityFromSession = await getCartInSession();
-      console.log('This is the getQuantityFromSession → ', getQuantityFromSession);
-
-      // Create a countMap to store quantities
-      let countMap = getQuantityFromSession.reduce((acc, num) => {
-        acc[num] = (acc[num] || 0) + 1;
-        return acc;
-      }, {});
-
-      // Add quantity to each product
-      for (let product of data) {
-        let productId = product.id;
-        let quantity = countMap[productId] || 0; // Get quantity from countMap
-        product.quantity = quantity;
-      }
-
-      setAllProducts(data);
-    } catch (err) {
-      console.error('Error getting response from getAllProductsInSessionFromDB API: ', err);
-    } finally {
-      setLoading(false); // Set loading to false after the API call completes
-    }
-  };
-
-  useEffect(() => {
-    const getAllProducts = async () => {
-      handleProducts();
-    }
-      getAllProducts();
-  }, [setAllProducts]);
+  const { loading } = useGetAllProductsInSessionFromDbWithQuantity();
+  const allProducts = useSelector(state => state.cartState.value);
 
   return (
     <div className="CartPage">
@@ -74,7 +29,7 @@ const CartPage = () => {
                 description={product.description}
                 quantity={product.quantity}
                 deletable={true}
-                onRemove={() => handleProducts()}
+                onRemove={() => refetch()}
               />
             ))}
           </ul>
@@ -84,10 +39,11 @@ const CartPage = () => {
       )}
       {allProducts && allProducts.length > 0 ? (
         <button onClick={() => navigate('/checkout')}>Checkout</button>
-        ): null
-      }
+      ) : null}
     </div>
   );
-}
+};
 
 export default CartPage;
+
+

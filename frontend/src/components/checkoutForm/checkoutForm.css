@@ -51,6 +51,10 @@
   cursor: default;
 }
 
+.checkout-container {
+  display: flex;
+}
+
 /* spinner/processing state, errors */
 .spinner,
 .spinner:before,

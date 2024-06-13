@@ -13,7 +13,7 @@ module.exports = async (app) => {
   // Load API route handlers
   await routeLoader(app, passport);
   
-  // Error Handler
+  // Error-handling middleware
   app.use((err, req, res, next) => {
 
     const { message, status = 500 } = err;

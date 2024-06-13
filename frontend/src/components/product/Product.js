@@ -26,7 +26,7 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
 
   return (
     <div className="product">
-      <h3 className="productName"> {name} </h3>
+      <h3 className="productName" onClick={() => handleClickProduct(id)} > {name} </h3>
       <p className="productPrice"> Price {price} </p>
       {quantity ? (
         <div>
@@ -38,7 +38,7 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
       <p className="productStock"> In Stock {stock} </p>
       <h4>Description</h4>
       <p className="productDescription"> {description} </p>
-      <img src={image} alt={name} onClick={() => handleClickProduct(id)}/>
+      {image ? <img src={image} alt={name} onClick={() => handleClickProduct(id)}/> : null}
     </div>
   );
 }

@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   PaymentElement,
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import Product from "../product/Product";
+import useGetAllProductsInSessionFromDbWithQuantity from "../../hooks/getProductInSessionFromDB";
+import { useSelector } from "react-redux";
 import "./checkoutForm.css"
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
+  useGetAllProductsInSessionFromDbWithQuantity();
+
+  const allProducts = useSelector(state => state.cartState.value);
+
+  console.log(allProducts);
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -81,19 +91,42 @@ export default function CheckoutForm() {
     layout: "tabs"
   }
 
-  return (
-    <div className="payment-form-container">
-      <form id="payment-form" onSubmit={handleSubmit}>
+  useEffect(() => {
+    const checkProducts = () => {
+      if (!allProducts) {
+        return navigate('/cart');
+      }
+    }
+    checkProducts()
+  }, []);
 
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
-          <span id="button-text">
-            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-          </span>
-        </button>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
-      </form>
+  return (
+    <div className="checkout-container">
+      <ul>
+        {allProducts ? (allProducts.map(product => (
+          <Product 
+            key={product.id}
+            name={product.name} 
+            price={product.price} 
+            stock={product.stock} 
+            description={product.description}
+            quantity={product.quantity}
+          />
+        ))): null}
+      </ul>
+      <div className="payment-form-container">
+        <form id="payment-form" onSubmit={handleSubmit}>
+          <PaymentElement id="payment-element" options={paymentElementOptions} />
+          <button disabled={isLoading || !stripe || !elements} id="submit">
+            <span id="button-text">
+              {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+            </span>
+          </button>
+          {/* Show any error or success messages */}
+          {message && <div id="payment-message">{message}</div>}
+        </form>
+      </div>
     </div>
+
   );
 }
