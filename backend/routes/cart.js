@@ -20,6 +20,16 @@ const ProductModelInstance = new ProductModel();
       res.status(200).json({ message: 'Item added to cart' });
     });
 
+    // Add payment status
+    router.post('/payment_completion', (req, res) => {
+      const { status } = req.body;
+      if (!status) {
+        return res.status(204).json({ message: 'payment completion got no status' });
+      }
+      res.session.cart.paymentStatus = status;
+      res.status(200).json({ message: 'payment status added to session.cart' });
+    });
+
     // GET Session-Based cart get all items
     router.get('/get_cart_in_session', (req, res) => {
       if (!req.session.cart) {

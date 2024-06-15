@@ -90,3 +90,22 @@ export const getAllProductsInSessionFromDB = async () => {
     console.error('Error getting all products in session from database: → ', err);
   }
 };
+
+// Post payment status to the session
+export const addPaymentStatusToSession = async (status) => {
+  try {
+    const response = await fetch(`${api}/cart/payment_completion`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status }),
+      credentials: 'include'
+    });
+    const data = await response.json();
+    console.log('This is the response from addPaymentStatusToSession: → ', data);
+    return data;
+  } catch(err) {
+    console.error('Error adding payment status to the session', err);
+  }
+};
