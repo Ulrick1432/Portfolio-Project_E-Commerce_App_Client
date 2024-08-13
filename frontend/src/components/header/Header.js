@@ -56,19 +56,27 @@ const Header = () => {
     return navigate(`/cart`);
   };
 
+  const handleClickOrder = (e) => {
+    e.preventDefault();
+    navigate('/orders');
+  }
+
   return (
     <header className="header">
       <h1 className="app-name" onClick={handleClickAppName}>Portfolio Project: E-Commerce App</h1>
       <div className="buttons">
+      <button onClick={handleClickGetCart}>cart</button>
         {user ? (
-          <button onClick={handleClickLogout}>Logout</button>
+          <>
+            <button onClick={handleClickOrder}>Orders</button>
+            <button onClick={handleClickLogout}>Logout</button>
+          </>
         ) : (
           <>
             <button onClick={handleClickLogin}>Login</button>
             <button onClick={handleClickCreateAccount}>Create account</button>
           </>
         )}
-        <button onClick={handleClickGetCart}>cart</button>
       </div>
     </header>
   );
