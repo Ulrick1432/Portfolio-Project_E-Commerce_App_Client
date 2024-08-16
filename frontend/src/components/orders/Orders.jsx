@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../../api/userAuth';
+import { allOrdersById } from '../../api/order';
 
 const Orders = () => {
   const navigate = useNavigate();
@@ -14,11 +15,24 @@ const Orders = () => {
           navigate('/');
         }
       } catch (error) {
-        console.error("Error checking user authentication", error);
+        console.error("Error checking user authentication: ", error);
       }
     }
 
     checkUserAuthentication();
+  }, []);
+
+  useEffect(() => {
+    const getAllOrdersById = async () => {
+      try {
+        const orders = await allOrdersById();
+        console.log('this is')
+        console.log(orders)
+      } catch (error) {
+        console.error("Error getting all orders by id: ", error);
+      }
+    } 
+    getAllOrdersById();
   }, []);
 
   return (

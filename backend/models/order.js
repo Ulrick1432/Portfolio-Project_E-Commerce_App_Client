@@ -19,11 +19,13 @@ module.exports = class OrderModel {
   }
 
   // Get all Orders
-  async getAllOrders() {
+  async getAllOrders(userId) {
     try {
-      const allOrders = await db.query(`SELECT * FROM "orders"`);
-      const orders = allOrders.rows;
-      return orders;
+      const orders = await db.query(`SELECT * FROM "orders" WHERE "user_id" = $1`, [userId] );
+      if (orders.rows?.length) {
+        return orders.rows;
+      }
+      return null;
     } catch(err) {
       throw new Error('Error getting all orders: ' + err.message);
     }
