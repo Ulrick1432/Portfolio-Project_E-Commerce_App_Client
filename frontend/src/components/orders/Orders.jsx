@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../../api/userAuth';
-import { allOrdersById } from '../../api/order';
+import { allOrdersById, allOrderitemsById } from '../../api/order';
+
 
 const Orders = () => {
   const navigate = useNavigate();
@@ -24,10 +25,28 @@ const Orders = () => {
 
   useEffect(() => {
     const getAllOrdersById = async () => {
+      const allData = []
       try {
         const orders = await allOrdersById();
-        console.log('this is')
-        console.log(orders)
+        //console.log('This is orders = ', orders)
+        for (let i = 0; i < orders.length; i++) {
+          allData.push({
+            ...orders[i],
+          products: []
+        });
+          console.log(allData);
+        }
+        if (orders) {
+          for (let i = 0; i < allData.length; i++) {
+            const orderItems = await allOrderitemsById(allData[i].id)
+            for (let j = 0; j < orderItems.length; j++) {
+              if (orderItems[j].order_id === allData[i].id) {
+                allData[i].products.push(orderItems[j]);
+              }
+            }
+          }
+          console.log(allData);
+        }
       } catch (error) {
         console.error("Error getting all orders by id: ", error);
       }

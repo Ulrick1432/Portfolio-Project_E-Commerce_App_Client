@@ -17,12 +17,24 @@ module.exports = (app) => {
       }
       
       console.log('This is the userId in the backend router: ', userId)
-      const response = await OrderModelInstance.getOrderById(userId);
+      const response = await OrderModelInstance.getAllOrdersById(userId);
       res.status(200).send(response);
     } catch(err) {
       next(err)
     }
   });
 
-  
+  router.get('/all_orderitems_by_id/:orderId', async (req, res, next) => {
+    try {
+      const {orderId} = req.params;
+      if (orderId) {
+        const response = await OrderModelInstance.getAllOrderitemsById(orderId);
+        res.status(200).send(response); 
+      } else {
+        return res.status(400).send({message: 'missing orderId to get orderitems'});
+      } 
+    } catch(err) {
+      next(err);
+    }
+  })
 }

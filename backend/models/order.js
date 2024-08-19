@@ -19,7 +19,7 @@ module.exports = class OrderModel {
   }
 
   // Get all Orders
-  async getAllOrders(userId) {
+  async getAllOrdersById(userId) {
     try {
       const orders = await db.query(`SELECT * FROM "orders" WHERE "user_id" = $1`, [userId] );
       if (orders.rows?.length) {
@@ -32,15 +32,27 @@ module.exports = class OrderModel {
   }
 
   // Get order by id
-  async getOrderById(orderId) {
+  async getOrderById(userId) {
     try {
-      const orderById = await db.query(`SELECT * FROM "orders" WHERE "id" = $1`, [orderId]);
+      const orderById = await db.query(`SELECT * FROM "orders" WHERE "id" = $1`, [userId]);
       if (orderById.rows?.length) {
         return orderById.rows[0];
       }
       return null;
     } catch(err) {
       throw new Error('Error getting order by id: ' + err.message);
+    }
+  }
+  // Get all orderItems by order id
+  async getAllOrderitemsById(orderId) {
+    try {
+      const orderItems = await db.query(`SELECT * FROM "order_items" WHERE "order_id" = $1`, [orderId]);
+      if (orderItems.rows?.length) {
+        return orderItems.rows;
+      }
+      return console.log(`OrderId ${orderId} seems to be Empty'`)
+    } catch(err) {
+      throw new Error('Error getting all orderitems by order id: ', err.message);
     }
   }
 }
