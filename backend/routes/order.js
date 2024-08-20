@@ -6,6 +6,23 @@ const OrderModelInstance = new OrderModel();
 module.exports = (app) => {
   app.use('/orders', router);
 
+  // POST create order
+  router.post('/create_order', async (req, res, next) => {
+    try {
+      // Midlertidigt user_id for brugere der ikke er logget ind
+      let userId
+      if (req.user) {
+        userId = req.user;
+      } else {
+        userId = req.body.userId;
+      }
+      const reponse = await OrderModelInstance.createOrder('Pending', userId, )
+    } catch(err) {
+      next(err);
+    }
+  })
+
+
   // GET all orders by id from logged in user.
   router.get('/all_orders_by_Id', async (req, res, next) => {
     try {
@@ -24,6 +41,7 @@ module.exports = (app) => {
     }
   });
 
+  // GET all order items
   router.get('/all_orderitems_by_id/:orderId', async (req, res, next) => {
     try {
       const {orderId} = req.params;
@@ -37,4 +55,5 @@ module.exports = (app) => {
       next(err);
     }
   })
+
 }

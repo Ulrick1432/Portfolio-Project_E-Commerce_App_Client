@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getProductById } from "../../api/product";
 import { useParams } from "react-router-dom";
-import { addToCartInSession } from "../../api/cart";
+import { addToCartInSession, createCart, getCartInSession } from "../../api/cart";
 
 const ProductPage = () => {
   const [product, setProduct] = useState([]);
@@ -25,6 +25,14 @@ const ProductPage = () => {
     e.preventDefault();
     const itemId = id;
     try {
+      const getCart = await getCartInSession();
+      console.log('getCart.length = ', getCart.length)
+      console.log('getcart = ', getCart)
+      if (!getCart.length) {
+        console.log('!getCart.length = true ')
+        const create = await createCart();
+        console.log(create);
+      }
       const response = await addToCartInSession(itemId);
       console.log('This is the response from handleClickAddToCart: → ', response);
       

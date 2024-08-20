@@ -1,5 +1,22 @@
 import { api } from '.';
 
+// Create Cart
+export const createCart = async () => {
+  try {
+    const response = await fetch(`${api}/cart/create_cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include'
+    });
+    const data = await response.json();
+    return data;
+  } catch(err) {
+    console.error('Error creating new cart: ', err);
+  }
+};
+
 // Add product to Cart in Session
 export const addToCartInSession = async (item) => {
   try {

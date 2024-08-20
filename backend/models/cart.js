@@ -9,12 +9,20 @@ module.exports = class CartsModel {
   async createCart(created) {
     try {
       const createNewCart = await db.query('INSERT INTO "carts" ("created") VALUES ($1) RETURNING *', [created]);
-      const newCart = createNewCart.rows[0];
-      return newCart
+      console.log(createNewCart); // Log the full response object
+      if (createNewCart.rows.length > 0) {
+        const newCart = createNewCart.rows[0];
+        //console.log(newCart); // Log the specific row returned
+        return newCart;
+      } else {
+        console.error("No rows returned after insert");
+        return {};
+      }
     } catch (err) {
       throw new Error('Error creating new cart: ' + err.message);
     }
   }
+  
   // GET Carts by id
   async getCart(id) {
     try {
