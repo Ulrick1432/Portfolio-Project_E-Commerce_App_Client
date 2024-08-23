@@ -3,7 +3,6 @@
 // marketing purposes. A streamlined login or guest checkout option for returning customers can
 // save time and enhance the user experience.
 
-import { request } from "express"
 import { Form } from "react-router-dom"
 
 const CustomerInformation = () => {
@@ -53,6 +52,8 @@ const CustomerInformation = () => {
         <br/>
 
       </Form>
+      <button>Back</button>
+      <button>Next</button>
     </div>
   )
 }
@@ -77,3 +78,5 @@ export const customerInfoAction = async ({ request }) => {
   //...
 
 }
+
+export default CustomerInformation;
