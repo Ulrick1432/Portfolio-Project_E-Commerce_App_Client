@@ -1,7 +1,7 @@
 // src/components/CartPage.js
 import React from 'react';
-import useGetAllProductsInSessionFromDbWithQuantity from '../hooks/getProductInSessionFromDB';
-import Product from './product/Product';
+import useGetAllProductsInSessionFromDbWithQuantity from '../../hooks/getProductInSessionFromDB';
+import Product from '../product/Product';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 

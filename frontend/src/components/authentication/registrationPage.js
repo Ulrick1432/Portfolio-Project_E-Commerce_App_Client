@@ -21,27 +21,27 @@ const RegistrationPage = () => {
         <button onClick={handleClickLogin}>Login</button>
       </div>
       <Form className="registration-form" method="post" action='/register'>
-        <label>
+        <label htmlFor="firstName">
           First name:
           <input type="text" name="firstName"/>
         </label>
         <br/>
-        <label>
+        <label htmlFor="lastName">
           Last name:
           <input type="text" name="lastName"/>
         </label>
         <br/>
-        <label>
+        <label htmlFor="phoneNumber">
           Phone number:
           <input type="tel" name="phoneNumber"/>
         </label>
         <br/>
-        <label>
+        <label htmlFor="email">
           E-mail:
           <input type="email" name="email"/>
         </label>
         <br/>
-        <label>
+        <label htmlFor="password">
           password:
           <input type="password" name="password"/>
         </label>
@@ -52,6 +52,7 @@ const RegistrationPage = () => {
   )
 }
 
+  // request is An object containing the HTTP request data, including form data.
 export const registrationAction = async ({ request }) => {
   console.log(request);
   const data = await request.formData();

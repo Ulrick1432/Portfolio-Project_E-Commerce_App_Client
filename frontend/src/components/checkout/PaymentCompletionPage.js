@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Product from "./product/Product";
+import Product from "../product/Product";
 //import "./PaymentCompletionPage.css";
 
 const PaymentCompletionPage = () => {

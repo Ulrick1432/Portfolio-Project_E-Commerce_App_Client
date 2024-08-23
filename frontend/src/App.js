@@ -9,11 +9,11 @@ import { registrationAction } from "./components/authentication/RegistrationPage
 import { loginAction } from "./components/authentication/Login";
 import ProductPage from "./components/product/ProductPage";
 import Layout from "./components/Layout";
-import CartPage from "./components/cart";
-import CheckoutForm from './components/checkoutForm/CheckoutForm';
+import CartPage from "./components/checkout/cart";
+import CheckoutForm from './components/checkout/CheckoutForm';
 import { useEffect, useState } from 'react';
 import { createPaymentIntent } from './api/checkout';
-import PaymentCompletionPage from './components/PaymentCompletionPage';
+import PaymentCompletionPage from './components/checkout/PaymentCompletionPage';
 import Orders from './components/orders/Orders';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
