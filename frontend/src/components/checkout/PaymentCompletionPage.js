@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Product from "../product/Product";
 //import "./PaymentCompletionPage.css";
 
@@ -10,7 +9,6 @@ const PaymentCompletionPage = () => {
   const stripe = useStripe();
   const location = useLocation();
   const navigate = useNavigate();
-  const allProducts = useSelector((state) => state.cartState.value);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
@@ -49,19 +47,6 @@ const PaymentCompletionPage = () => {
     <div className="PaymentCompletionPage-container">
       <h1>Payment Completion</h1>
       <p>{message}</p>
-      <ul>
-        {allProducts &&
-          allProducts.map((product) => (
-            <Product
-              key={product.id}
-              name={product.name}
-              price={product.price}
-              stock={product.stock}
-              description={product.description}
-              quantity={product.quantity}
-            />
-          ))}
-      </ul>
     </div>
   );
 };

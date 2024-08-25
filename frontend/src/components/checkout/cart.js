@@ -38,6 +38,7 @@ const CartPage = () => {
         <p>No products in the cart.</p>
       )}
       {allProducts && allProducts.length > 0 ? (
+        // nedenstående navigate skal ændres til fx /customer_information
         <button onClick={() => navigate('/checkout')}>Checkout</button>
       ) : null}
     </div>

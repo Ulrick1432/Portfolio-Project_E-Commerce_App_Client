@@ -52,6 +52,7 @@ const CustomerInformation = () => {
         <br/>
 
       </Form>
+      {/*Onclick back skal navigate til cart onclick next skal navigate til fx /Shipping_details*/}
       <button>Back</button>
       <button>Next</button>
     </div>
