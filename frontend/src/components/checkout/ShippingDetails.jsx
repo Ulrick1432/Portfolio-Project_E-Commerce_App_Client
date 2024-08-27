@@ -7,24 +7,37 @@ import { useNavigate } from "react-router-dom";
 
 const ShippingDetails = () => {
   const [selectedSupplier, setSelectedSupplier] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (selectedSupplier) {
-      document.getElementsByClassName("nextButton").removeAttribute('disabled')
+    const nextButton = document.querySelector(".nextButton");
+    if (nextButton && selectedSupplier) {
+      nextButton.disabled = !selectedSupplier;
+    } else {
+      nextButton.disabled = false;
     }
-  }, [setSelectedSupplier])
+    console.log(selectedSupplier)
+  }, [selectedSupplier]);
+
+  const handleClickSupplier = () => {
+    if (!selectedSupplier) {
+      setSelectedSupplier(true);
+    } else {
+      setSelectedSupplier(false);
+    }
+  };
 
   return (
     <div>
       <h2>Shipping details</h2>
       <h3>This page is missing integration delivery supplier sry :D </h3>
-      <p>Postnord</p>
-      <p>GLS</p>
+      <button onClick={handleClickSupplier}>Postnord</button>
+      <button onClick={handleClickSupplier}>GLS</button>
+      <br/>
       <button onClick={() => navigate('/checkout/customerInformation')}>Back</button>
-      <button className="nextButton" onClick={() => navigate('/checkout')}>Next</button>
+      <button className="nextButton" onClick={() => navigate('/checkout')} disabled={!selectedSupplier}>Next</button>
     </div>
-  )
-}
+  );
+};
 
 export default ShippingDetails;
