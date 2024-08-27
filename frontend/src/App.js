@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react';
 import { createPaymentIntent } from './api/checkout';
 import PaymentCompletionPage from './components/checkout/PaymentCompletionPage';
 import Orders from './components/orders/Orders';
+import CustomerInformation from './components/checkout/CustomerInformation.jsx';
+import ShippingDetails from './components/checkout/ShippingDetails.jsx';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -47,6 +49,8 @@ const App = () => {
           <Route path='/product/:id' element={<ProductPage/>}></Route>
           <Route path='/cart' element={<CartPage/>}></Route>
           <Route path='/checkout' element={<CheckoutForm/>}></Route>
+          <Route path='/checkout/customerInformation' element={<CustomerInformation />}></Route>
+          <Route path='/checkout/shippingDetails' element={<ShippingDetails />}></Route>
           <Route path='/payment_completion' element={<PaymentCompletionPage/>}></Route>
           <Route path='/orders' element={<Orders/>}></Route>
         </Route>
