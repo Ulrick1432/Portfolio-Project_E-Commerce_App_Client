@@ -12,44 +12,36 @@ const CustomerInformation = () => {
       <h2>Customer information</h2>
       <Form className="customerInformationForm" method="POST" action="toTheAPI XD">
 
-        <label htmlFor="firstName" >
-          <input type="text" name="firstName"/>
-        </label>
+        <label htmlFor="firstName" > First name</label>
+          <input type="text" name="firstName" required/>
         <br/>
 
-        <label htmlFor="lastName">
-          <input type="text" name="lastName"/>
-        </label>
+        <label htmlFor="lastName">Last name</label>
+          <input type="text" name="lastName" required/>
         <br/>
 
-        <label htmlFor="phoneNumber">
-          <input type="tel" name="phoneNumber"/>
-        </label>
+        <label htmlFor="phoneNumber">Phone number</label>
+          <input type="tel" name="phoneNumber" required/>
         <br/>
 
-        <label htmlFor="email">
-          <input type="email" name="email"/>
-        </label>
+        <label htmlFor="email">E-mail </label>
+          <input type="email" name="email" required/>
         <br/>
 
-        <label htmlFor="address_line_1">
-          <input type="text" name="address_line_1"/>
-        </label>
+        <label htmlFor="address_line_1">Street Adress</label>
+          <input type="text" name="address_line_1" required/>
         <br/>
 
-        <label htmlFor="postalCode">
-          <input type="number" name="postalCode"/>
-        </label>
+        <label htmlFor="postalCode">Postal Code</label>
+          <input type="number" name="postalCode" required/>
         <br/>
 
-        <label htmlFor="city">
+        <label htmlFor="city">City</label>
          <input type="text" name="city"/>
-        </label>
         <br/>
 
-        <label htmlFor="country">
+        <label htmlFor="country">Country</label>
           <input type="text" name="country"/>
-        </label>
         <br/>
 
       </Form>
