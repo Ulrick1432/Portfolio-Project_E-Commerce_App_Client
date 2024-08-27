@@ -15,8 +15,8 @@ import { useEffect, useState } from 'react';
 import { createPaymentIntent } from './api/checkout';
 import PaymentCompletionPage from './components/checkout/PaymentCompletionPage';
 import Orders from './components/orders/Orders';
-import CustomerInformation from './components/checkout/CustomerInformation.jsx';
-import ShippingDetails from './components/checkout/ShippingDetails.jsx';
+import CustomerInformation from './components/checkout/CustomerInformation';
+import ShippingDetails from './components/checkout/ShippingDetails';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 

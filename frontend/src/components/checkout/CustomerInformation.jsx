@@ -3,9 +3,10 @@
 // marketing purposes. A streamlined login or guest checkout option for returning customers can
 // save time and enhance the user experience.
 
-import { Form } from "react-router-dom"
+import { Form, useNavigate } from "react-router-dom"
 
 const CustomerInformation = () => {
+  const navigate = useNavigate();
   return (
     <div id="customerInformationPage">
       <h2>Customer information</h2>
@@ -53,8 +54,8 @@ const CustomerInformation = () => {
 
       </Form>
       {/*Onclick back skal navigate til cart onclick next skal navigate til fx /Shipping_details*/}
-      <button>Back</button>
-      <button>Next</button>
+      <button onClick={() => navigate('/cart')}>Back</button>
+      <button onClick={() => navigate('/checkout/shippingDetails')}>Next</button>
     </div>
   )
 }

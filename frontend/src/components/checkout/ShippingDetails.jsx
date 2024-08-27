@@ -2,10 +2,12 @@
 // shipping method. Businesses should offer multiple shipping options, catering to various needs and
 // budgets, and provide accurate delivery estimates.
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const ShippingDetails = () => {
   const [selectedSupplier, setSelectedSupplier] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (selectedSupplier) {
@@ -19,8 +21,8 @@ const ShippingDetails = () => {
       <h3>This page is missing integration delivery supplier sry :D </h3>
       <p>Postnord</p>
       <p>GLS</p>
-      <button>Back</button>
-      <button className="nextButton" disabled>Next</button>
+      <button onClick={() => navigate('/checkout/customerInformation')}>Back</button>
+      <button className="nextButton" onClick={() => navigate('/checkout')}>Next</button>
     </div>
   )
 }
