@@ -15,11 +15,11 @@ const ProductPage = () => {
         const response = await getProductById(id);
         setProduct(response);
       } catch(err) {
-        console.error('Error getting reponse from getProductById API: ', err);
+        console.error('Error getting product by ID: ', err);
       }
-    } 
+    }
     getProduct();
-  }, []);
+  }, [id]);
 
   const handleClickAddToCart = async (e) => {
     e.preventDefault();
