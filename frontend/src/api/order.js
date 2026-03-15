@@ -50,3 +50,15 @@ export const allOrderitemsById = async (orderId) => {
   }
 };
 
+export const createOrder = async () => {
+  try {
+    const response = await fetch(`${api}/orders/create_order`);
+    if (response.ok) {
+      const data = response.json();
+      return data;
+    }
+  } catch (err) {
+    console.error('Error creating order: ', err);
+  }
+}
+

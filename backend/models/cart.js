@@ -6,23 +6,22 @@ const db = require('../db/index');
 module.exports = class CartsModel {
 
   // POST Carts
-  async createCart(created) {
+  async createCart() {
     try {
-      const createNewCart = await db.query('INSERT INTO "carts" ("created") VALUES ($1) RETURNING *', [created]);
-      console.log(createNewCart); // Log the full response object
+      // Brug DEFAULT CURRENT_TIMESTAMP i databasen
+      const createNewCart = await db.query(
+        'INSERT INTO "carts" DEFAULT VALUES RETURNING *'
+      );
+
       if (createNewCart.rows.length > 0) {
-        const newCart = createNewCart.rows[0];
-        //console.log(newCart); // Log the specific row returned
-        return newCart;
+        return createNewCart.rows[0];
       } else {
-        console.error("No rows returned after insert");
-        return {};
+        return {}; // bare returnér et tomt objekt, ikke res.json()
       }
     } catch (err) {
       throw new Error('Error creating new cart: ' + err.message);
     }
   }
-  
   // GET Carts by id
   async getCart(id) {
     try {

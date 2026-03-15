@@ -8,6 +8,7 @@ export const createCart = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ created: new Date() }), // <-- send timestamp
       credentials: 'include'
     });
     const data = await response.json();

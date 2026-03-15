@@ -3,10 +3,15 @@
 // marketing purposes. A streamlined login or guest checkout option for returning customers can
 // save time and enhance the user experience.
 
-import { Form, useNavigate } from "react-router-dom"
+import { Form } from "react-router-dom"
 
 const CustomerInformation = () => {
-  const navigate = useNavigate();
+
+  const handleClickSubmit = (e) => {
+    e.preventDefault()
+    sessionStorage.setItem('enableCustomerInformationNextButton', 'true');
+  }
+
   return (
     <div id="customerInformationPage">
       <h2>Customer information</h2>
@@ -43,11 +48,11 @@ const CustomerInformation = () => {
         <label htmlFor="country">Country</label>
           <input type="text" name="country"/>
         <br/>
+        
+        <input type="submit" value="Submit" onClick={handleClickSubmit}/>
 
       </Form>
       {/*Onclick back skal navigate til cart onclick next skal navigate til fx /Shipping_details*/}
-      <button onClick={() => navigate('/cart')}>Back</button>
-      <button onClick={() => navigate('/checkout/shippingDetails')}>Next</button>
     </div>
   )
 }

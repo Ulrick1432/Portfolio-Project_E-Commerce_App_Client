@@ -16,7 +16,8 @@ module.exports = (app) => {
       } else {
         userId = req.body.userId;
       }
-      const reponse = await OrderModelInstance.createOrder('Pending', userId, )
+      const reponse = await OrderModelInstance.createOrder('Pending', userId,)
+      res.status(200).send(reponse);
     } catch(err) {
       next(err);
     }

@@ -11,12 +11,14 @@ const ProductModelInstance = new ProductModel();
     app.use('/cart', router);
 
     // POST Create cart
-    router.post('/create_cart', async (req, res, next) => {
+    router.post('/create_cart', async (req, res) => {
       try {
-        const response = await CartModelInstance.createCart(true);
-        res.status(200).send(response);
+        // Lad databasen selv sætte created timestamp (ingen argumenter)
+        const response = await CartModelInstance.createCart(); 
+        res.status(200).json(response);
       } catch(err) {
-        next(err);
+        console.error('Error creating cart:', err.message);
+        res.status(500).json({ message: err.message });
       }
     });
 

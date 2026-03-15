@@ -6,6 +6,9 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 import Product from "../product/Product";
+import PaymentCompletionPage from "./PaymentCompletionPage";
+import CustomerInformation from "./CustomerInformation";
+import ShippingDetails from "./ShippingDetails";
 import useGetAllProductsInSessionFromDbWithQuantity from "../../hooks/getProductInSessionFromDB";
 import { useSelector } from "react-redux";
 import "./checkoutForm.css"
@@ -14,14 +17,20 @@ export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-  useGetAllProductsInSessionFromDbWithQuantity();
 
   const allProducts = useSelector(state => state.cartState.value);
 
   console.log(allProducts);
 
+  useGetAllProductsInSessionFromDbWithQuantity();
+
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState('customerInformation');
+
+  sessionStorage.setItem('enableCustomerInformationNextButton', 'false');
+  sessionStorage.setItem('enablepaymentElementNextButton', 'false');
+
 
   useEffect(() => {
     if (!stripe) {
@@ -93,12 +102,26 @@ export default function CheckoutForm() {
 
   useEffect(() => {
     const checkProducts = () => {
-      if (!allProducts) {
+      if (!allProducts || allProducts.length === 0) {
         return navigate('/cart');
       }
     }
     checkProducts()
   }, []);
+
+  const handleClickPaymentElementSubmit = () => {
+    sessionStorage.setItem('enablepaymentElementNextButton', 'true');
+  }
+
+
+  // CustomerInformation → ShippingDetails → PaymentElement → PaymentCompletionPage
+  const goToStep = () => {
+    if (currentStep === 'customerInformation') setCurrentStep('shippingDetails');
+    else if (currentStep === 'shippingDetails') setCurrentStep('paymentElement');
+    else if (currentStep === 'paymentElement') setCurrentStep('PaymentCompletionPage');
+  }
+
+  console.log('Current step = ', currentStep);
 
   return (
     <div className="checkout-container">
@@ -114,18 +137,47 @@ export default function CheckoutForm() {
           />
         ))): null}
       </ul>
-      <div className="payment-form-container">
-        <form id="payment-form" onSubmit={handleSubmit}>
-          <PaymentElement id="payment-element" options={paymentElementOptions} />
-          <button disabled={isLoading || !stripe || !elements} id="submit">
-            <span id="button-text">
-              {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-            </span>
-          </button>
-          {/* Show any error or success messages */}
-          {message && <div id="payment-message">{message}</div>}
-        </form>
-      </div>
+
+      {currentStep === "customerInformation" ? 
+        <div className="customer_information_container">
+          <CustomerInformation />
+          <button onClick={() => navigate('/cart')}>Back</button>
+          <button onClick={() => goToStep('shippingDetails')} disabled={sessionStorage.getItem('enableCustomerInformationNextButton')}>Next</button>
+        </div>
+      : null}
+
+      {currentStep === 'shippingDetails' ? 
+        <div>  
+          <ShippingDetails /> 
+          <button onClick={() => goToStep('customerInformation')}>Back</button>
+          <button onClick={() => goToStep('paymentElement')}>Next</button>
+        </div>
+      : null}
+
+      {currentStep === 'paymentElement' ?   
+        <div className="payment-form-container">
+          <form id="payment-form" onSubmit={handleSubmit}>
+            <PaymentElement id="payment-element" options={paymentElementOptions} />
+            <button onClick={handleClickPaymentElementSubmit} disabled={isLoading || !stripe || !elements} id="submit">
+              <span id="button-text">
+                {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+              </span>
+            </button>
+            {/* Show any error or success messages */}
+            {message && <div id="payment-message">{message}</div>}
+          </form>
+          <button onClick={() => goToStep('shippingDetails')}>Back</button>
+          <button onClick={goToStep('PaymentCompletionPage')}>Next</button>
+        </div>
+      : null}
+
+      {currentStep === 'shippingDetails' ? 
+        <div>
+          <PaymentCompletionPage /> 
+          <button onClick={() => goToStep('paymentElement')}>Back</button>
+          <button onClick={() => navigate('/')}>Next</button>
+        </div>  
+      : null}
     </div>
 
   );

@@ -34,8 +34,6 @@ const ShippingDetails = () => {
       <button onClick={handleClickSupplier}>Postnord</button>
       <button onClick={handleClickSupplier}>GLS</button>
       <br/>
-      <button onClick={() => navigate('/checkout/customerInformation')}>Back</button>
-      <button className="nextButton" onClick={() => navigate('/checkout')} disabled={!selectedSupplier}>Next</button>
     </div>
   );
 };

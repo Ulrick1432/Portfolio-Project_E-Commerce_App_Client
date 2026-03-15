@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Product from "../product/Product";
 //import "./PaymentCompletionPage.css";
 
@@ -10,6 +11,8 @@ const PaymentCompletionPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
+
+  const allProducts = useSelector((state) => state.cartState.value);
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -23,12 +26,12 @@ const PaymentCompletionPage = () => {
     if (!stripe || !paymentIntentClientSecret) {
       return;
     }
-
     stripe.retrievePaymentIntent(paymentIntentClientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
           //createOrder(paymentIntent.id);  // Call function to create order
+          //Delete Cart
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -47,6 +50,21 @@ const PaymentCompletionPage = () => {
     <div className="PaymentCompletionPage-container">
       <h1>Payment Completion</h1>
       <p>{message}</p>
+      <p>Show products from new order</p>
+      <div>
+        <ul>
+          {allProducts && allProducts.map((product) => (
+            <Product
+            key={product.id}
+            name={product.name}
+            price={product.price}
+            stock={product.stock}
+            description={product.description}
+            quantity={product.quantity}
+            />
+          ))}
+        </ul>
+        </div>
     </div>
   );
 };
