@@ -99,13 +99,16 @@ export const getAllProductsInSessionFromDB = async () => {
     const response = await fetch(`${api}/cart/get_all_products_in_session_from_db`, {
       credentials: 'include'
     });
+
     if (response.status === 204) {
-      return response.message
+      return []; // altid array
     }
+
     const data = await response.json();
     return data;
   } catch(err) {
     console.error('Error getting all products in session from database: → ', err);
+    return [];
   }
 };
 

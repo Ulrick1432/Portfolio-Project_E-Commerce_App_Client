@@ -15,8 +15,12 @@ module.exports = async (app) => {
   // Error-handling middleware
   app.use((err, req, res, next) => {
 
+    if (res.headersSent) {
+      return next(err);
+    }
+
     const { message, status = 500 } = err;
-  
+
     return res.status(status).send({ message });
   });
 }

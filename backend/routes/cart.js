@@ -10,14 +10,13 @@ const ProductModelInstance = new ProductModel();
 
     app.use('/cart', router);
 
-    // POST Create cart
+    // POST Create cart and save in session
     router.post('/create_cart', async (req, res) => {
       try {
-        // Lad databasen selv sætte created timestamp (ingen argumenter)
-        const response = await CartModelInstance.createCart(); 
-        res.status(200).json(response);
-      } catch(err) {
-        console.error('Error creating cart:', err.message);
+        const newCart = await CartModelInstance.createCart();
+        req.session.cart = { id: newCart.id, cartItems: [] }; // sikrer cartItems array
+        res.status(200).json(req.session.cart);
+      } catch (err) {
         res.status(500).json({ message: err.message });
       }
     });
@@ -55,13 +54,13 @@ const ProductModelInstance = new ProductModel();
 
     router.get('/get_all_products_in_session_from_db', async (req, res, next) => {
       try {
-        if (!req.session.cart) {
+        if (!req.session.cart?.cartItems?.length) {
           return res.status(204).json({ message: 'No products are added to cart' });
         }
         // If req.session.cart = [ '4', '4', '4', '5', '5', '5' ] the 2 lines down will makes it [ 4, 5 ]
         // so it ensures to only query the database once per unique product id
         const IdArr = req.session.cart.cartItems.map(Number); // Convert string IDs to integers
-        const uniqueIdInArr = [...new Set(IdArr)]; //// Remove duplicates
+        const uniqueIdInArr = [...new Set(IdArr)]; // Remove duplicates
         const products = await ProductModelInstance.getMultipleProductsById(uniqueIdInArr);
         res.status(200).send(products);
       } catch(err) {

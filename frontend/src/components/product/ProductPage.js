@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { addToCartInSession, createCart, getCartInSession } from "../../api/cart";
 
 const ProductPage = () => {
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
   const { id } = useParams();
   console.log(id);
 
@@ -21,25 +21,24 @@ const ProductPage = () => {
     getProduct();
   }, [id]);
 
-  const handleClickAddToCart = async (e) => {
-    e.preventDefault();
+const handleClickAddToCart = async (e) => {
+  e.preventDefault();
+  try {
     const itemId = id;
-    try {
-      const getCart = await getCartInSession();
-      console.log('getCart.length = ', getCart.length)
-      console.log('getcart = ', getCart)
-      if (!getCart.length) {
-        console.log('!getCart.length = true ')
-        const create = await createCart();
-        console.log(create);
-      }
-      const response = await addToCartInSession(itemId);
-      console.log('This is the response from handleClickAddToCart: → ', response);
-      
-    } catch(err) {
-      console.log('Error adding item to cart: → ', err);
+    let getCart = await getCartInSession();
+
+    if (!getCart?.length) {
+      const newCart = await createCart();
+      getCart = newCart.cartItems || [];
     }
-  };
+
+    const response = await addToCartInSession(itemId);
+    console.log('Updated cart:', response);
+
+  } catch(err) {
+    console.error('Error adding item to cart: → ', err);
+  }
+};
   
   return (
     <div className="productPage">

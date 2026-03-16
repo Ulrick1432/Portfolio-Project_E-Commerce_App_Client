@@ -19,7 +19,7 @@ module.exports = (app) => {
   // Creates a session
   app.use(
     session({  
-      name: "UPH first session",
+      name: "uph_first_session",
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,

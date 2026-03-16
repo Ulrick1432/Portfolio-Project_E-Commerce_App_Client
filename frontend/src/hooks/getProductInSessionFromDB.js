@@ -13,9 +13,12 @@ const useGetAllProductsInSessionFromDbWithQuantity = () => {
       try {
         const response = await getAllProductsInSessionFromDB();
         let data = await response;
-  
-        if (!data) {
-          return console.log('No products are added to cart');
+
+        if (!response || response.length === 0) {
+          console.log('No products are added to cart');
+          dispatch(cartState([]));
+          setLoading(false);
+          return;
         }
         console.log('This is the response in the useEffect getAllProducts: → ', data);
   
