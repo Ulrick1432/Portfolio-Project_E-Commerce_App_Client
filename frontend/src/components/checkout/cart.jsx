@@ -1,9 +1,9 @@
 // src/components/CartPage.js
-import React from 'react';
 import useGetAllProductsInSessionFromDbWithQuantity from '../../hooks/getProductInSessionFromDB';
 import Product from '../product/Product';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import './cart.css';
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const CartPage = () => {
         <p>Loading products...</p>
       ) : allProducts && allProducts.length > 0 ? (
         <>
-          <ul>
+          <ul className='productList'>
             {allProducts.map(product => (
               <Product 
                 key={product.id} 
