@@ -12,8 +12,6 @@ module.exports = (app) => {
   
   // Set method to serialize data to store in cookie
   passport.serializeUser((user, done) => {
-    console.log('This is the user.googleId in serializeUser → ' + user.googleId);
-    console.log('This is the user in serializeUser → ' + user.id);
     done(null, user.id);
   });
   

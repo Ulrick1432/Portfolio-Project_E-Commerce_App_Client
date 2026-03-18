@@ -78,41 +78,48 @@ module.exports = class UserModel {
 
   async getUserByGoogleId(id) {
     try {
-      let findUserById = await db.query('SELECT * FROM "users" WHERE "googleId" = $1', [id]);
-      const user = findUserById.rows[0];
-      console.log('This is user in getUserByGoogleId → ' + user.googleId);
+      const result = await db.query(
+        'SELECT * FROM "users" WHERE "googleId" = $1',
+        [id]
+      );
+
+      const user = result.rows[0];
+
       if (!user) {
-        console.log('user was not found in getUserByGoogleId');
-        console.log('if getUserByGoogleId is not found this is what it returns ' + findUserById.array[0].id);
-        return findUserById.rows[0];
+        console.log('User not found in getUserByGoogleId');
+        return null;
       }
-      console.log('user was found in getUserByGoogleId');
-      return user
-    } catch(err) {
+
+      console.log('User found → ' + user.googleId);
+      return user;
+
+    } catch (err) {
       throw new Error(err.message);
     }
   }
   
   async googleIdFindOrCreateAcc(profile) {
-    console.log(profile);
-    console.log('This is googleId in googleIdFindOrCreateAcc → ' + profile.id);
     try {
+      console.log('Google profile → ', profile);
+
       let user = await this.getUserByGoogleId(profile.id);
+
       if (!user) {
-        console.log('No user found in googleIdFindOrCreateAcc');
-        console.log('firstName: ' + profile.name.givenName + ' lastName: ' + profile.name.familyName);
-        user = this.registerUser({
-          firstName: profile.name.givenName,
-            lastName: profile.name.familyName,
-            GoogleId: profile.id
+        console.log('No user found → creating new one');
+
+        user = await this.registerUser({
+          firstName: profile.name?.givenName,
+          lastName: profile.name?.familyName,
+          googleId: profile.id,
+          email: profile.emails?.[0]?.value
         });
-        return user;
       }
-      console.log('googleIdFindOrCreateAcc returns user');
+
       return user;
-    } catch(err) {
-      throw new Error(err);
+
+    } catch (err) {
+      throw new Error(err.message);
     }
-  };
+  }
 
 }

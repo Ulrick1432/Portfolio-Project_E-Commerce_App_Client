@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/user');
@@ -25,7 +26,9 @@ module.exports = (app, passport) => {
   }));
 
   // Google login Endpoint
-  router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+  router.get('/google', passport.authenticate('google', { 
+    scope: ['profile', 'email'] 
+  }));
 
   router.get('/google/callback', passport.authenticate('google', {
     successRedirect: process.env.FRONTEND_ENDPOINT,
