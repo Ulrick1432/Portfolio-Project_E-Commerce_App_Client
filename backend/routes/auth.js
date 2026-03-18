@@ -80,7 +80,7 @@ module.exports = (app, passport) => {
         }
   
         // Clear the cookie
-        res.clearCookie('UPH first session'); // Ensure this matches the session cookie name
+        res.clearCookie('uph_first_session'); // Ensure this matches the session cookie name
   
         // Send success response
         res.status(200).json({
