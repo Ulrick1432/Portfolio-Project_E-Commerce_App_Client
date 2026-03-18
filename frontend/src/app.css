@@ -1,9 +1,53 @@
 html {
-  /*standard font-size for the app 1 rem = 16 px*/
+  /* Base font-size (1rem = 16px) + smooth scrolling */
   font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  /* Ens box model + reset margin/padding */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  /* Fjerner blå highlight på mobile ved tap */
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  /* Standard font stack (system fonts) + bedre readability */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+
+  /* Default farver for appen */
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+img {
+  /* Sørger for billeder ikke overflow'er container */
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  /* Fjerner default link styling */
+  text-decoration: none;
+  color: inherit;
+}
+
+input,
+button,
+textarea,
+select {
+  /* Ens font på alle form elements */
+  font: inherit;
 }
 
 button {
+  /* Default button styling */
   background-color: #555;
   color: white;
   border: none;
@@ -11,19 +55,24 @@ button {
   cursor: pointer;
   font-size: 1em;
   border-radius: 5px;
+
+  /* Smooth hover transition */
   transition: background-color 0.3s;
 }
 
 button:hover {
+  /* Hover effekt */
   background-color: #777;
 }
 
 button:focus {
+  /* Fjerner default browser outline (kan evt. erstattes med :focus-visible) */
   outline: none;
 }
 
 @media (max-width: 480px) {
   button {
+    /* Mindre knapper på mobile */
     padding: 8px 15px;
     font-size: 0.9em;
   }
