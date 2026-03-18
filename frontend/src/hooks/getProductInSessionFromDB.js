@@ -8,53 +8,44 @@ const useGetAllProductsInSessionFromDbWithQuantity = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllProductsInSessionFromDB();
-        let data = await response;
+  const fetchData = async () => {
+    setLoading(true);
 
-        if (!response || response.length === 0) {
-          console.log('No products are added to cart');
-          dispatch(cartState([]));
-          setLoading(false);
-          return;
-        }
-        console.log('This is the response in the useEffect getAllProducts: → ', data);
-  
-        //If no data allProduct state is updated and triggers a re-render.
-        if (!data) {
-          return setAllProducts([]);
-        };
-  
-        let getQuantityFromSession = await getCartInSession();
-        console.log('This is the getQuantityFromSession → ', getQuantityFromSession);
-  
-        // Create a countMap to store quantities
-        let countMap = getQuantityFromSession.reduce((acc, num) => {
-          acc[num] = (acc[num] || 0) + 1;
-          return acc;
-        }, {});
-  
-        // Add quantity to each product
-        for (let product of data) {
-          let productId = product.id;
-          let quantity = countMap[productId] || 0; // Get quantity from countMap
-          product.quantity = quantity;
-        }
+    try {
+      const response = await getAllProductsInSessionFromDB();
+      let data = await response;
 
-        dispatch(cartState(data));
-      } catch (err) {
-        console.error('Error getting response from getAllProductsInSessionFromDB API: ', err);
-      } finally {
-        setLoading(false);
+      if (!response || response.length === 0) {
+        dispatch(cartState([]));
+        return;
       }
-    };
 
+      let getQuantityFromSession = await getCartInSession();
+
+      let countMap = getQuantityFromSession.reduce((acc, num) => {
+        acc[num] = (acc[num] || 0) + 1;
+        return acc;
+      }, {});
+
+      for (let product of data) {
+        let productId = product.id;
+        product.quantity = countMap[productId] || 0;
+      }
+
+      dispatch(cartState(data));
+
+    } catch (err) {
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
-  return { loading };
+  return { loading, refetch: fetchData };
 };
 
 export default useGetAllProductsInSessionFromDbWithQuantity;

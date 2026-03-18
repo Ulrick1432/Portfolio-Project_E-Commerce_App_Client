@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { loading } = useGetAllProductsInSessionFromDbWithQuantity();
+  const { loading, refetch } = useGetAllProductsInSessionFromDbWithQuantity();
   const allProducts = useSelector(state => state.cartState.value);
 
   return (
