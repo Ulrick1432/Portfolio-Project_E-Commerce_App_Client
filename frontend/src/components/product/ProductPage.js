@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getProductById } from "../../api/product";
 import { useParams } from "react-router-dom";
 import { addToCartInSession, createCart, getCartInSession } from "../../api/cart";
-
+import './productPage.css';
 const ProductPage = () => {
   const [product, setProduct] = useState({});
   const { id } = useParams();
@@ -43,10 +43,10 @@ const handleClickAddToCart = async (e) => {
     <div className="productPage">
       <img src={product.image} alt={product.name}/>
       <h3 className="productName"> {product.name} </h3>
-      <p className="productPrice"> {product.price} </p>
-      <p className="productStock"> {product.stock} </p>
+      <p className="productPrice"> Price: {product.price} </p>
+      <p className="productStock"> In Stock: {product.stock} </p>
       <p className="productDescription"> {product.description} </p>
-      <button onClick={handleClickAddToCart}>Add to cart</button>
+      <button className="addToCart" onClick={handleClickAddToCart}>Add to cart</button>
     </div>
   )
 }
