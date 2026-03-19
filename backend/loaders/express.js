@@ -6,7 +6,7 @@ module.exports = (app) => {
 
   // Enable Cross Origin Resource Sharing to all origins by default
   app.use(cors({
-    origin: [process.env.FRONTEND_ENDPOINT, process.env.API_ENDPOINT ],
+    origin: [process.env.FRONTEND_ENDPOINT, process.env.API_ENDPOINT, process.env.FRONTEND_LOCAL_NETWORK_ENDPOINT ],
     credentials: true,
   }));
 

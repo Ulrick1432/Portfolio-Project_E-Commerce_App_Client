@@ -10,7 +10,7 @@ async function startServer() {
   // Init application loaders
   loaders(app, passport);
 
-  const port = 4000
+  const port = 4000;
 
   // Start server
   app.listen(port, '0.0.0.0', () => {
