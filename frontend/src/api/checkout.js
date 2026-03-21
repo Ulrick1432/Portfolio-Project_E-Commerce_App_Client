@@ -1,6 +1,13 @@
-import { api } from ".";
+/**
+ * Checkout API module.
+ * Handles payment processing via Stripe payment intents.
+ */
+import { api } from './index';
 
-// { id: "xl-tshirt" } should be change to the real itmes from the cart
+/**
+ * Creates a Stripe payment intent for the current cart total.
+ * @returns {Promise<string>} The Stripe client secret for completing payment
+ */
 export const createPaymentIntent = async () => {
   try {
     const response = await fetch(`${api}/checkout/create_payment_intent`, {

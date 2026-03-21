@@ -1,5 +1,15 @@
-import { api } from '.';
+/**
+ * User authentication API module.
+ * Handles login, logout, and retrieving current user data.
+ */
+import { api } from './index';
 
+/**
+ * Authenticates a user with username and password.
+ * @param {string} username - The user's username
+ * @param {string} password - The user's password
+ * @returns {Promise<boolean>} True if login successful, false otherwise
+ */
 export const login = async (username, password) => {
   try {
     const response = await fetch(`${api}/auth/login`, {
@@ -12,17 +22,21 @@ export const login = async (username, password) => {
     });
 
     if (response.status === 200) {
-      return true; // Login successful
+      return true;
     } else {
-      return false; // Login failed (due to incorrect credentials or other reasons)
+      return false;
     }
   } catch (err) {
-    // Handle network errors or other exceptions
     console.error('Error occurred during login: ', err);
-    throw err; // Re-throw the original error for the caller to handle
+    throw err;
   }
 };
 
+/**
+ * Logs out the current user by destroying the server-side session.
+ * @returns {Promise<void>}
+ * @throws {Error} If the logout request fails
+ */
 export const logout = async () => {
   try {
     const response = await fetch(`${api}/auth/logout`, {
@@ -30,7 +44,7 @@ export const logout = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include' // Ensure credentials are included to handle the session correctly
+      credentials: 'include'
     });
 
     if (!response.ok) {
@@ -39,10 +53,15 @@ export const logout = async () => {
     }
   } catch (err) {
     console.error('Error occurred during logout: ', err);
-    throw err; // Re-throw the original error for the caller to handle
+    throw err;
   }
 };
 
+/**
+ * Retrieves the currently authenticated user's data from the server.
+ * @returns {Promise<Object>} User data object containing success status and user info
+ * @throws {Error} If authentication fails or user is not logged in
+ */
 export const getUser = async () => {
   try {
     const response = await fetch(`${api}/auth/login/success`, {

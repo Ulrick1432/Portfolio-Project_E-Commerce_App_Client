@@ -1,5 +1,13 @@
-import { api } from '.';
+/**
+ * Order API module.
+ * Handles order and order item retrieval and creation.
+ */
+import { api } from './index';
 
+/**
+ * Retrieves all orders for the currently authenticated user.
+ * @returns {Promise<Array|null>} Array of order objects, or null if empty/error
+ */
 export const allOrdersById = async () => {
   try {
     const response = await fetch(`${api}/orders/all_orders_by_Id`, {
@@ -12,7 +20,6 @@ export const allOrdersById = async () => {
     
     if (response.ok) {
       const text = await response.text();
-      // Check if response is not empty
       if (text) {
         const data = JSON.parse(text);
         return data;
@@ -29,6 +36,11 @@ export const allOrdersById = async () => {
   }
 };
 
+/**
+ * Retrieves all order items for a specific order.
+ * @param {string|number} orderId - The ID of the order to fetch items for
+ * @returns {Promise<Object>} Order items data from the server
+ */
 export const allOrderitemsById = async (orderId) => {
   try {
     const response = await fetch(`${api}/orders/all_orderitems_by_id/${orderId}`, {
@@ -43,13 +55,17 @@ export const allOrderitemsById = async (orderId) => {
       const data = response.json();
       return data;
     } else {
-      console.error(`Server responded with status and message: ${response.status & response.message}`);
+      console.error(`Server responded with status: ${response.status}`);
     }
   } catch(err) {
     console.error('Error getting all orderitems by order id: ', err);
   }
 };
 
+/**
+ * Creates a new order for the current user.
+ * @returns {Promise<Object>} The created order object
+ */
 export const createOrder = async () => {
   try {
     const response = await fetch(`${api}/orders/create_order`);

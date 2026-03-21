@@ -1,7 +1,13 @@
-// This file should be used for fetching products
+/**
+ * Product API module.
+ * Handles fetching product data from the server.
+ */
+import { api } from './index';
 
-import { api } from '.';
-
+/**
+ * Retrieves all products from the database.
+ * @returns {Promise<Array>} Array of all product objects
+ */
 export const getAllProducts = async () => {
   try {
     const response = await fetch(`${api}/product/get_all`);
@@ -12,6 +18,11 @@ export const getAllProducts = async () => {
   }
 };
 
+/**
+ * Retrieves a single product by its ID.
+ * @param {string|number} id - The product ID to fetch
+ * @returns {Promise<Object>} The product object
+ */
 export const getProductById = async (id) => {
   try {
     const response = await fetch(`${api}/product/${id}`);

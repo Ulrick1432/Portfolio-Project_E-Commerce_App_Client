@@ -1,6 +1,13 @@
-import { api } from '.';
+/**
+ * Shopping cart API module.
+ * Handles session-based cart operations including add, update, delete, and retrieve items.
+ */
+import { api } from './index';
 
-// Create Cart
+/**
+ * Creates a new shopping cart on the server.
+ * @returns {Promise<Object>} The created cart object with id and cartItems array
+ */
 export const createCart = async () => {
   try {
     const response = await fetch(`${api}/cart/create_cart`, {
@@ -8,7 +15,7 @@ export const createCart = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ created: new Date() }), // <-- send timestamp
+      body: JSON.stringify({ created: new Date() }),
       credentials: 'include'
     });
     const data = await response.json();
@@ -18,7 +25,11 @@ export const createCart = async () => {
   }
 };
 
-// Add product to Cart in Session
+/**
+ * Adds a product item to the session-based cart.
+ * @param {string|number} item - The product ID to add to the cart
+ * @returns {Promise<Object>} Response containing the updated cart
+ */
 export const addToCartInSession = async (item) => {
   try {
     const response = await fetch(`${api}/cart/add_to_cart_in_session`, {
@@ -36,7 +47,13 @@ export const addToCartInSession = async (item) => {
   }
 };
 
-// Update product quantity by id from session-based cart
+/**
+ * Updates the quantity of a product in the session-based cart.
+ * @param {string|number} id - The product ID to update
+ * @param {number} newQuantity - The new desired quantity
+ * @param {number} oldQuantity - The current quantity in the cart
+ * @returns {Promise<Object>} Response containing updated cart or warning message
+ */
 export const updateQuantityToCartInSession = async (id, newQuantity, oldQuantity) => {
   try {
     const response = await fetch(`${api}/cart/update_cart_item_by_id_in_session`, {
@@ -57,7 +74,11 @@ export const updateQuantityToCartInSession = async (id, newQuantity, oldQuantity
   }
 };
 
-// Delete product from cart in session
+/**
+ * Deletes a product from the session-based cart.
+ * @param {string|number} id - The product ID to remove from the cart
+ * @returns {Promise<Object>} Response containing updated cart or not found message
+ */
 export const deleteCartItemInSession = async (id) => {
   try {
     const response = await fetch(`${api}/cart/delete_cart_item_by_id_in_session`, {
@@ -80,7 +101,10 @@ export const deleteCartItemInSession = async (id) => {
   }
 };
 
-// Get cart in session
+/**
+ * Retrieves all product IDs stored in the session cart.
+ * @returns {Promise<Array>} Array of product IDs in the cart
+ */
 export const getCartInSession = async () => {
   try {
     const response = await fetch(`${api}/cart/get_cart_in_session`, {
@@ -93,7 +117,11 @@ export const getCartInSession = async () => {
   }
 };
 
-// Get all products in session from DB - if there is 2 of the same product it still only returns 1 product per ID
+/**
+ * Retrieves full product details from the database for all items in the session cart.
+ * Returns unique products (deduplicates repeated items).
+ * @returns {Promise<Array>} Array of product objects with full details
+ */
 export const getAllProductsInSessionFromDB = async () => {
   try {
     const response = await fetch(`${api}/cart/get_all_products_in_session_from_db`, {
@@ -101,7 +129,7 @@ export const getAllProductsInSessionFromDB = async () => {
     });
 
     if (response.status === 204) {
-      return []; // altid array
+      return [];
     }
 
     const data = await response.json();
@@ -112,7 +140,11 @@ export const getAllProductsInSessionFromDB = async () => {
   }
 };
 
-// Post payment status to the session
+/**
+ * Stores the payment completion status in the session.
+ * @param {string} status - The payment status (e.g., 'completed', 'pending')
+ * @returns {Promise<Object>} Response confirming the status was stored
+ */
 export const addPaymentStatusToSession = async (status) => {
   try {
     const response = await fetch(`${api}/cart/payment_completion`, {
