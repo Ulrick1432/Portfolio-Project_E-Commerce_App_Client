@@ -2,13 +2,11 @@
 import useGetAllProductsInSessionFromDbWithQuantity from '../../hooks/getProductInSessionFromDB';
 import Product from '../product/Product';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import './cart.css';
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { loading, refetch } = useGetAllProductsInSessionFromDbWithQuantity();
-  const allProducts = useSelector(state => state.cartState.value);
+  const { loading, refetch, products: allProducts } = useGetAllProductsInSessionFromDbWithQuantity();
 
   return (
     <div className="CartPage">
