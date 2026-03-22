@@ -9,14 +9,17 @@
  *   - Displays full product details (image, name, price, stock, description)
  *   - Add to cart button that creates cart if needed
  *   - Persists cart items in server-side session
+ *   - Updates Redux store with cart items for UI consistency
  * 
  * @module components/ProductPage
  */
 
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getProductById } from "../../api/product";
 import { useParams } from "react-router-dom";
 import { addToCartInSession, createCart, getCartInSession } from "../../api/cart";
+import { cartState } from "../../utils/cart";
 import './productPage.css';
 
 /**
@@ -27,6 +30,8 @@ import './productPage.css';
 const ProductPage = () => {
   const [product, setProduct] = useState({});
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cartState.value) || [];
 
   /**
    * Fetches product data from API when component mounts or product ID changes.
@@ -46,6 +51,7 @@ const ProductPage = () => {
   /**
    * Handles adding the current product to the shopping cart.
    * Creates a new cart if one doesn't exist, then adds the item.
+   * Updates both server session and Redux store for UI consistency.
    * 
    * @param {Event} e - Click event from add-to-cart button
    */
@@ -63,6 +69,10 @@ const ProductPage = () => {
 
       const response = await addToCartInSession(itemId);
       console.log('Updated cart:', response);
+
+      // Update Redux store with new cart items
+      const updatedCart = [...cartItems, parseInt(itemId)];
+      dispatch(cartState(updatedCart));
 
     } catch(err) {
       console.error('Error adding item to cart: → ', err);
