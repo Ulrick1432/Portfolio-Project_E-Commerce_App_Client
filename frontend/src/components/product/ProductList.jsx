@@ -1,15 +1,34 @@
-// Used to display the list of products with the use of the "Product" component
-// The products listing page will be the place for users to browse through the products available for sale. 
-// Each product should display a name, description, and image.
+/**
+ * ProductList Component
+ * 
+ * Displays a grid/list of all available products in the catalog.
+ * Fetches all products from the API on mount and renders them using Product components.
+ * 
+ * Features:
+ *   - Fetches all products from API on component mount
+ *   - Maps each product to a Product component
+ *   - Displays products in an unordered list layout
+ * 
+ * @module components/ProductList
+ */
+
 import { useEffect, useState } from "react";
 import Product from "./Product";
 import { getAllProducts } from "../../api/product";
 import './productList.css';
 
+/**
+ * ProductList component - displays catalog of all products.
+ * 
+ * @returns {JSX.Element} Rendered list of products
+ */
 const ProductList = () => {
   const [allProducts, setAllProducts] = useState([]);
 
-
+  /**
+   * Fetches all products from API when component mounts.
+   * Updates state with product array for rendering.
+   */
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -21,7 +40,6 @@ const ProductList = () => {
     };
     getProducts();
   }, []);
-
 
   return (
     <>
@@ -41,6 +59,6 @@ const ProductList = () => {
       </ul>
     </>
   );
-}
+};
 
 export default ProductList;

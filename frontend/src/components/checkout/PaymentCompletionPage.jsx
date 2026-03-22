@@ -1,37 +1,67 @@
-// PaymentCompletionPage.js
+/**
+ * PaymentCompletionPage Component
+ * 
+ * Displays the result of a Stripe payment transaction.
+ * Retrieves payment intent status from URL query parameters and shows confirmation.
+ * 
+ * Features:
+ *   - Parses Stripe redirect URL parameters
+ *   - Verifies payment status via Stripe API
+ *   - Displays success/failure message to user
+ *   - Shows products from the completed order
+ *   - Redirects failed payments back to cart
+ * 
+ * @module components/PaymentCompletionPage
+ */
+
 import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Product from "../product/Product";
-//import "./PaymentCompletionPage.css";
 
+/**
+ * PaymentCompletionPage component - handles post-payment flow.
+ * Displays payment result and order summary after Stripe redirect.
+ * 
+ * @returns {JSX.Element} Rendered payment completion page
+ */
 const PaymentCompletionPage = () => {
   const stripe = useStripe();
   const location = useLocation();
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
 
+  // Gets cart products from Redux store to display in order summary
   const allProducts = useSelector((state) => state.cartState.value);
 
+  /**
+   * Checks payment status when component mounts or URL changes.
+   * Parses Stripe redirect parameters and retrieves payment intent.
+   * Redirects failed payments back to cart.
+   */
   useEffect(() => {
     const query = new URLSearchParams(location.search);
-    console.log('This is the query for PaymentCompletionPage: → ', query);
     const redirectStatus = query.get("redirect_status");
+    
+    // Redirect to cart if payment did not succeed
     if (redirectStatus !== "succeeded") {
-      navigate('/cart')
+      navigate('/cart');
     }
+    
     const paymentIntentClientSecret = query.get("payment_intent_client_secret");
 
     if (!stripe || !paymentIntentClientSecret) {
       return;
     }
+
+    // Retrieve payment intent from Stripe and set appropriate message
     stripe.retrievePaymentIntent(paymentIntentClientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
-          //createOrder(paymentIntent.id);  // Call function to create order
-          //Delete Cart
+          // TODO: Call createOrder(paymentIntent.id) to create order in database
+          // TODO: Clear/delete cart after successful payment
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -55,16 +85,16 @@ const PaymentCompletionPage = () => {
         <ul>
           {allProducts && allProducts.map((product) => (
             <Product
-            key={product.id}
-            name={product.name}
-            price={product.price}
-            stock={product.stock}
-            description={product.description}
-            quantity={product.quantity}
+              key={product.id}
+              name={product.name}
+              price={product.price}
+              stock={product.stock}
+              description={product.description}
+              quantity={product.quantity}
             />
           ))}
         </ul>
-        </div>
+      </div>
     </div>
   );
 };

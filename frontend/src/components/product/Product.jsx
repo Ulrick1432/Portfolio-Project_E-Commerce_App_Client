@@ -1,16 +1,54 @@
-// Used for rendering a particular product.
-//import defaultImage from '../../resources/productImages/default-product-image.png'
-//Source for default img "resources/productImages/default-product-image.png"
+/**
+ * Product Component
+ * 
+ * Renders a single product card with details and interactive features.
+ * Can display as a browse item or as a cart item with quantity controls.
+ * 
+ * Features:
+ *   - Product name, price, stock, and description display
+ *   - Product image with click-to-view handler
+ *   - Optional quantity input for cart management
+ *   - Optional delete/remove functionality for cart items
+ *   - Clickable name to navigate to product detail page
+ * 
+ * @module components/Product
+ */
+
 import { useNavigate } from "react-router-dom";
 import { deleteCartItemInSession, updateQuantityToCartInSession } from "../../api/cart";
 import './product.css';
 
-const Product = ({ name, price, stock, description, image, id, quantity, deletable, onRemove  }) => {
+/**
+ * Product component - displays product information and cart actions.
+ * 
+ * @param {Object} props - Component props
+ * @param {string} props.name - Product name
+ * @param {number} props.price - Product price
+ * @param {number} props.stock - Available stock quantity
+ * @param {string} props.description - Product description
+ * @param {string} props.image - URL to product image
+ * @param {number} props.id - Unique product identifier
+ * @param {number} [props.quantity] - Current quantity in cart (if applicable)
+ * @param {boolean} [props.deletable] - Whether delete button should be shown
+ * @param {Function} [props.onRemove] - Callback after quantity change or delete
+ * @returns {JSX.Element} Rendered product card
+ */
+const Product = ({ name, price, stock, description, image, id, quantity, deletable, onRemove }) => {
   const navigate = useNavigate();
 
-  const handleClickProduct = (id) => {
-    return navigate(`/product/${id}`);
-  }
+  /**
+   * Navigates to the product detail page for the clicked product.
+   * @param {number} productId - Product ID to navigate to
+   */
+  const handleClickProduct = (productId) => {
+    return navigate(`/product/${productId}`);
+  };
+
+  /**
+   * Handles quantity input change and updates cart via API.
+   * Calls onRemove callback after successful update to refresh parent.
+   * @param {Event} e - Change event from quantity input
+   */
   const handleQuantityChange = async (e) => {
     const oldQuantity = quantity;
     let newQuantity = e.target.value;
@@ -18,7 +56,10 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
     onRemove();
   };
 
-
+  /**
+   * Removes product from cart via API call.
+   * Calls onRemove callback after successful deletion to refresh parent.
+   */
   const handleClickRemoveProduct = async () => {
     await deleteCartItemInSession(id);
     onRemove();
@@ -33,7 +74,7 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
           <label htmlFor="quantity">Quantity</label>
           <input type="number" name="quantity" min={0} defaultValue={quantity} onChange={handleQuantityChange} />
         </div>
-        ) : null}
+      ) : null}
       {deletable ? (<button onClick={handleClickRemoveProduct}>Remove product</button>) : null}
       <p className="productStock"> In Stock {stock} </p>
       <h4>Description</h4>
@@ -41,6 +82,6 @@ const Product = ({ name, price, stock, description, image, id, quantity, deletab
       {image ? <img src={image} alt={name} onClick={() => handleClickProduct(id)}/> : null}
     </div>
   );
-}
+};
 
 export default Product;
