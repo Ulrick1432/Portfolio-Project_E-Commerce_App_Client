@@ -31,6 +31,23 @@ npm start          # Start production server (runs backend/index.js)
 npm test           # Currently returns "Error: no test specified"
 ```
 
+## Frontend Development (CRA)
+
+### Development Server Proxy
+The frontend uses Create React App with a proxy to forward API requests to the backend. This solves cross-origin session cookie issues.
+
+**Configuration:**
+- `frontend/package.json`: `"proxy": "http://localhost:4000"`
+- `frontend/src/api/index.js`: `export const api = '';` (empty = same origin)
+
+**Important Notes:**
+- The proxy **only works in development**. Requests are forwarded from `localhost:3000` to `localhost:4000`
+- The proxy makes frontend and backend appear same-origin, enabling session cookies to work correctly
+- For production, use a reverse proxy (nginx) or deploy both services on the same origin
+- If you access the frontend via IP address (e.g., `192.168.x.x:3000`) instead of localhost, session cookies will not work due to cross-origin restrictions. Use localhost for development.
+
+**Restart required:** After changing `package.json` proxy, restart the frontend dev server
+
 ## Code Style Guidelines
 
 ### JavaScript Standard (CommonJS)
